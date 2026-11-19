@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <!-- Rich Metallic Gold Gradients -->
+    <linearGradient id="goldMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF099" />
+      <stop offset="35%" stop-color="#F5B82E" />
+      <stop offset="70%" stop-color="#C88212" />
+      <stop offset="100%" stop-color="#8A5205" />
+    </linearGradient>
+
+    <linearGradient id="goldBright" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D99316" />
+      <stop offset="50%" stop-color="#FFE066" />
+      <stop offset="100%" stop-color="#FFF8CC" />
+    </linearGradient>
+
+    <radialGradient id="bgDark" cx="50%" cy="50%" r="50%">
+      <stop offset="60%" stop-color="#141417" />
+      <stop offset="100%" stop-color="#050507" />
+    </radialGradient>
+
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="45%" stop-color="#FFD000" />
+      <stop offset="100%" stop-color="#FF7B00" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Outer Dark Medallion Base -->
+  <circle cx="50" cy="50" r="48" fill="url(#bgDark)" stroke="url(#goldMain)" stroke-width="3.5" />
+  <circle cx="50" cy="50" r="43.5" fill="none" stroke="#F5B82E" stroke-width="0.75" stroke-opacity="0.45" />
+
+  <!-- Minimalist Tech Circuit Accents (Left & Right) -->
+  <path d="M13 42 H19 L22 45 M12 56 H18 L21 53" stroke="#F5B82E" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.75" />
+  <circle cx="13" cy="42" r="1.5" fill="#FFE066" />
+  <circle cx="12" cy="56" r="1.5" fill="#FFE066" />
+
+  <!-- Royal Crown (Top) -->
+  <g transform="translate(0, -1)">
+    <!-- Crown Base Band -->
+    <path d="M31 28 L69 28 L67 32 L33 32 Z" fill="url(#goldMain)" />
+    <!-- Crown Spires -->
+    <path d="M31 27 L27 16 L38 22 L50 10 L62 22 L73 16 L69 27 Z" fill="url(#goldBright)" stroke="#141417" stroke-width="1" stroke-linejoin="round" />
+    <!-- Center Crown Jewel -->
+    <polygon points="50,15 53,20 50,25 47,20" fill="#141417" />
+    <polygon points="50,17 51.8,20 50,23 48.2,20" fill="#FFE066" />
+  </g>
+
+  <!-- Stylized Outer "D" Frame -->
+  <path d="M28 34 H50 C71 34 80 45 80 59 C80 73 71 84 50 84 H28 L32 78 H49 C64 78 72 70 72 59 C72 48 64 40 49 40 H33 Z" fill="url(#goldMain)" />
+  <!-- Left Vertical Pillar of "D" -->
+  <path d="M29 34 H33 V84 H29 Z" fill="url(#goldBright)" />
+
+  <!-- Cybernetic Profile Silhouette (Facing Left) -->
+  <path d="M47 41 
+           C40 41 36 45 35 51 
+           L31 57 
+           L35 59 
+           L34 62 
+           L36 64 
+           L35 67 
+           C36 70 39 71 43 71 
+           L42 77 
+           H57 
+           C63 72 66 65 66 58 
+           C66 47 58 41 47 41 Z" fill="#1E2026" stroke="url(#goldMain)" stroke-width="1.3" stroke-linejoin="round" />
+
+  <!-- Glowing Cybernetic Eye -->
+  <polygon points="36,52 42,51 41,54.5 36.5,54" fill="#FFE066" />
+  <circle cx="39" cy="52.7" r="2.2" fill="url(#coreGlow)" />
+
+  <!-- Cybernetic Ear Node & Sweep -->
+  <circle cx="56" cy="56" r="6.5" fill="#141417" stroke="url(#goldBright)" stroke-width="2" />
+  <circle cx="56" cy="56" r="3" fill="#FFAE00" />
+  <circle cx="56" cy="56" r="4.5" fill="url(#coreGlow)" />
+
+  <!-- Dynamic Gold Blade Sweep Across Lower "D" -->
+  <path d="M24 81 C42 77 65 68 85 52 C71 69 51 81 24 85 Z" fill="url(#goldBright)" />
+</svg>

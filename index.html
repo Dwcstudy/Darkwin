@@ -1,0 +1,1437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070707">
+  <meta name="description" content="Discover Darkwin: learning support for classes 1–12, problem-solving resources, digital tools, APKs, and additional services.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Darkwin — Learning, Tools &amp; Services">
+  <meta property="og:description" content="Explore Darkwin's learning support, problem-solving resources, digital tools, APKs, and additional services.">
+  <meta property="og:site_name" content="Darkwin">
+  <link rel="icon" type="image/png" href="titlebar.svg">
+  <title>Darkwin — Learning, Tools &amp; Services</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --black: #050505;
+      --black-2: #080808;
+      --surface: #101010;
+      --surface-2: #151515;
+      --gold: #d4af37;
+      --gold-bright: #ffd700;
+      --champagne: #f5d78e;
+      --gold-dark: #8c6b19;
+      --gold-light: #ffe9a6;
+      --muted: #aaa69c;
+      --text: #f4f0e5;
+      --line: rgba(212, 175, 55, .19);
+      --content: 1180px;
+      --ease: cubic-bezier(.2, .75, .25, 1);
+      --gold-glow: 0 0 28px rgba(212, 175, 55, .16);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      background: var(--black);
+      font: 400 15px/1.7 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      isolation: isolate;
+    }
+    #page-background {
+      position: fixed;
+      z-index: -3;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    body::before {
+      position: fixed;
+      z-index: -2;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      opacity: .14;
+      background-image: linear-gradient(rgba(212,175,55,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,.035) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+    body::after {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      opacity: .12;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.15'/%3E%3C/svg%3E");
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button:disabled { cursor: progress; opacity: .78; }
+    button:focus-visible, a:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--gold-light);
+      outline-offset: 4px;
+    }
+    ::selection { color: #0a0803; background: var(--champagne); }
+    .wrap { width: min(var(--content), calc(100% - 48px)); margin-inline: auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      padding: 6px 12px 6px 10px;
+      border: 1px solid rgba(212,175,55,.2);
+      border-radius: 999px;
+      color: var(--champagne);
+      background: rgba(212,175,55,.035);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 25px; height: 1px; content: ""; background: linear-gradient(90deg, transparent, var(--gold)); }
+    .gold-text {
+      color: transparent;
+      background: linear-gradient(105deg, #a27a20 3%, #f5d78e 34%, #d4af37 58%, #fff0b5 76%, #a47c23 100%);
+      background-size: 200% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: gold-sheen 9s ease-in-out infinite;
+    }
+    .section { position: relative; padding: 88px 0; }
+    .section::before {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(660px, 70vw);
+      height: 1px;
+      content: "";
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(212,175,55,.18), rgba(255,233,166,.7), rgba(212,175,55,.18), transparent);
+      background-size: 200% 100%;
+      animation: divider-glint 8s linear infinite;
+    }
+    .section-heading { max-width: 820px; margin: 0 0 52px; text-align: left; }
+    .section-heading .eyebrow { justify-content: flex-start; }
+    .section-heading h2 {
+      max-width: 760px;
+      margin: 17px 0 13px;
+      font: 500 clamp(34px, 4.4vw, 54px)/1.06 Georgia, "Times New Roman", serif;
+      letter-spacing: -.035em;
+    }
+    .section-heading p { max-width: 620px; margin: 0; color: var(--muted); font-size: 14px; }
+    .topbar {
+      position: relative;
+      z-index: 20;
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid rgba(212,175,55,.2);
+      border-radius: 0;
+      background: rgba(6,6,6,.94);
+      box-shadow: none;
+    }
+    .nav-inner { display: flex; height: 68px; align-items: center; justify-content: space-between; padding: 0 26px; }
+    .brand { display: inline-flex; align-items: center; min-width: max-content; }
+    .brand-logo { display: block; width: 150px; height: auto; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; object-fit: contain; filter: none; transition: filter .3s ease; }
+    .brand:hover .brand-logo { border: 0; box-shadow: none; filter: none; }
+    .nav-links { display: flex; align-items: center; gap: 12px; }
+    .nav-links a {
+      padding: 9px 11px;
+      border-radius: 0;
+      color: #fff;
+      font-size: 16px;
+      transition: color .2s ease, text-shadow .2s ease;
+    }
+    .nav-links a::after { display: none; }
+    .nav-links a:hover, .nav-links a.active, .nav-links a:active, .nav-links a:focus-visible {
+      color: var(--gold-bright);
+      background: none;
+      text-shadow: 0 0 8px rgba(255,215,0,.75), 0 0 18px rgba(255,215,0,.4);
+    }
+    .nav-download {
+      padding: 9px 11px !important;
+      border: 0;
+      border-radius: 0;
+      color: #fff !important;
+      font-size: 16px !important;
+      letter-spacing: 0;
+      text-transform: none;
+      transition: color .2s ease, text-shadow .2s ease !important;
+    }
+    .nav-download::after { display: none; }
+    .nav-download:hover, .nav-download.active, .nav-download:active, .nav-download:focus-visible {
+      color: var(--gold-bright) !important;
+      background: none;
+      box-shadow: none;
+      text-shadow: 0 0 8px rgba(255,215,0,.75), 0 0 18px rgba(255,215,0,.4);
+    }
+    .top-typewriter { margin: 0; padding: 14px 12px 0; color: var(--text); font: 500 clamp(22px, 2.7vw, 32px)/1.2 Georgia, "Times New Roman", serif; letter-spacing: -.02em; text-align: center; }
+    .theme-switch-wrap { display: flex; justify-content: center; padding-top: 10px; }
+    .theme-switch { display: inline-flex; gap: 3px; padding: 4px; border: 1px solid rgba(212,175,55,.25); border-radius: 999px; background: rgba(15,15,15,.9); }
+    .theme-switch button { min-width: 68px; padding: 7px 14px; border: 0; border-radius: 999px; color: #fff; background: transparent; font-size: 11px; font-weight: 700; letter-spacing: .08em; cursor: pointer; transition: color .2s ease, background .2s ease, box-shadow .2s ease; }
+    .theme-switch button[aria-pressed="true"] { color: #171107; background: linear-gradient(105deg, #a8822c, #f5d78e 48%, #c39a38); box-shadow: 0 3px 12px rgba(212,175,55,.24); }
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--champagne);
+      background: #101010;
+      cursor: pointer;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: 620px;
+      overflow: hidden;
+      align-items: center;
+      padding: 32px 0 24px;
+      isolation: isolate;
+    }
+    .hero::before, .hero::after {
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      content: "";
+    }
+    .hero::before {
+      top: 2%;
+      left: 50%;
+      width: min(1000px, 100vw);
+      height: 800px;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at 50% 35%, rgba(180,130,35,.17), rgba(130,89,20,.065) 32%, transparent 68%);
+      animation: ambient 9s ease-in-out infinite alternate;
+    }
+    .hero::after {
+      top: 8%;
+      right: -17%;
+      width: 560px;
+      height: 560px;
+      border: 1px solid rgba(212,175,55,.065);
+      border-radius: 50%;
+      box-shadow: 0 0 0 45px rgba(212,175,55,.018), 0 0 0 95px rgba(212,175,55,.012);
+    }
+    .hero-layout { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(330px, .96fr); align-items: center; gap: 44px; }
+    .hero-copy { position: relative; z-index: 2; padding-top: 13px; }
+    .hero-copy .eyebrow { animation: rise .75s .04s both; }
+    .version-pill, .platform-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border: 1px solid rgba(212,175,55,.22);
+      border-radius: 99px;
+      color: #c8c0aa;
+      background: rgba(16,16,16,.68);
+      font-size: 10px;
+      letter-spacing: .035em;
+    }
+    .version-pill { margin: 22px 0 0 8px; animation: rise .75s .15s both; }
+    .version-pill i, .platform-pill i { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px rgba(212,175,55,.8); }
+    .hero h1 {
+      max-width: 690px;
+      margin: 23px 0 22px;
+      font: 500 clamp(54px, 7.1vw, 88px)/.99 Georgia, "Times New Roman", serif;
+      letter-spacing: -.055em;
+      animation: rise .85s .23s both;
+    }
+    .hero h1 span { display: block; }
+    .hero-copy > p {
+      max-width: 530px;
+      margin: 0;
+      color: #a9a69d;
+      font-size: 15px;
+      line-height: 1.9;
+      animation: rise .85s .33s both;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; margin-top: 32px; animation: rise .85s .42s both; }
+    .button {
+      position: relative;
+      display: inline-flex;
+      min-height: 50px;
+      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      padding: 0 21px;
+      border: 1px solid rgba(245,215,142,.72);
+      border-radius: 999px;
+      color: #171107;
+      background: linear-gradient(105deg, #a8822c, #f5d78e 48%, #c39a38);
+      box-shadow: 0 7px 28px rgba(164,123,31,.18), inset 0 1px rgba(255,255,255,.55);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .105em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .3s var(--ease), box-shadow .3s ease, filter .3s ease;
+      isolation: isolate;
+    }
+    .hero-actions .button:not(.button-secondary) { animation: button-glow 3.8s ease-in-out infinite; }
+    .button::before {
+      position: absolute;
+      z-index: -1;
+      top: -60%;
+      left: -60%;
+      width: 43%;
+      height: 220%;
+      content: "";
+      transform: rotate(25deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+      transition: left .65s var(--ease);
+    }
+    .button:hover { transform: translateY(-2px); filter: saturate(1.12); box-shadow: 0 10px 34px rgba(212,175,55,.3), 0 0 26px rgba(212,175,55,.16); }
+    .button:hover::before { left: 125%; }
+    .button:active { transform: translateY(0) scale(.99); }
+    .download-button-icon { display: grid; width: 16px; height: 16px; place-items: center; font-style: normal; }
+    .download-button-icon { transition: transform .3s var(--ease); }
+    .download-button-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .button:hover .download-button-icon { transform: translateY(2px); }
+    .button-secondary {
+      border-color: rgba(212,175,55,.32);
+      color: #e4d7b1;
+      background: rgba(14,14,14,.62);
+      box-shadow: inset 0 1px rgba(255,255,255,.025);
+      font-weight: 600;
+    }
+    .button-secondary:hover { border-color: rgba(245,215,142,.7); background: rgba(212,175,55,.07); box-shadow: 0 0 23px rgba(212,175,55,.12); }
+    .hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 25px; color: #b6aa89; font-size: 9px; animation: rise .85s .51s both; }
+    .hero-meta span { padding: 6px 11px; border: 1px solid rgba(212,175,55,.16); border-radius: 999px; background: rgba(212,175,55,.035); }
+    .hero-art { position: relative; display: grid; min-height: 470px; place-items: center; animation: rise 1s .25s both; }
+    .orbital { position: absolute; width: min(100%, 470px); aspect-ratio: 1; border: 1px solid rgba(212,175,55,.11); border-radius: 50%; }
+    .orbital::before, .orbital::after { position: absolute; border: 1px solid rgba(212,175,55,.1); border-radius: 50%; content: ""; }
+    .orbital::before { inset: 8%; }
+    .orbital::after { inset: 17%; border-color: rgba(212,175,55,.075); }
+    .orbit-line {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 112%;
+      height: 43%;
+      border: 1px solid rgba(212,175,55,.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) rotate(-31deg);
+      animation: orbit 26s linear infinite;
+    }
+    .orbit-line::after {
+      position: absolute;
+      top: 13%;
+      left: 19%;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      content: "";
+      background: var(--gold-light);
+      box-shadow: 0 0 11px 3px rgba(245,215,142,.4);
+    }
+    .logo-stage {
+      position: relative;
+      display: grid;
+      width: min(330px, 62vw);
+      aspect-ratio: 1;
+      place-items: center;
+      border: 1px solid rgba(245,215,142,.48);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,.12), rgba(8,8,8,.28) 58%, transparent 70%);
+      box-shadow: 0 0 0 10px rgba(212,175,55,.025), 0 0 0 24px rgba(212,175,55,.018), 0 0 110px rgba(212,175,55,.24);
+      animation: logo-breathe 5.5s ease-in-out infinite;
+    }
+    .logo-stage::before, .logo-stage::after { position: absolute; border-radius: 50%; content: ""; pointer-events: none; }
+    .logo-stage::before { inset: -7px; border: 1px solid rgba(245,215,142,.22); border-top-color: rgba(255,233,166,.86); border-right-color: rgba(212,175,55,.08); animation: halo-rotate 18s linear infinite; }
+    .logo-stage::after { inset: 12px; border: 1px solid rgba(212,175,55,.12); box-shadow: inset 0 0 28px rgba(212,175,55,.06); }
+    .logo-image {
+      position: relative;
+      z-index: 2;
+      width: 94%;
+      height: 94%;
+      object-fit: contain;
+      border-radius: 50%;
+      filter: drop-shadow(0 14px 24px rgba(0,0,0,.5)) drop-shadow(0 0 18px rgba(212,175,55,.18));
+      transition: transform .55s var(--ease), filter .55s ease;
+    }
+    .logo-stage:hover .logo-image { transform: scale(1.035); filter: drop-shadow(0 18px 28px rgba(0,0,0,.58)) drop-shadow(0 0 26px rgba(245,215,142,.28)); }
+    .logo-caption { position: absolute; bottom: -52px; color: #b5a982; font-size: 9px; letter-spacing: .22em; text-transform: uppercase; white-space: nowrap; }
+    .floating-label {
+      position: absolute;
+      z-index: 2;
+      padding: 10px 13px;
+      border: 1px solid rgba(212,175,55,.2);
+      border-radius: 999px;
+      color: #c3b994;
+      background: rgba(8,8,8,.74);
+      box-shadow: 0 10px 25px rgba(0,0,0,.2);
+      font-size: 9px;
+      letter-spacing: .1em;
+      backdrop-filter: blur(10px);
+    }
+    .floating-label.left { top: 27%; left: -2%; }
+    .floating-label.right { right: -2%; bottom: 25%; }
+    .hero-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 56px;
+      padding-top: 19px;
+      border-top: 1px solid rgba(212,175,55,.12);
+      color: #736f65;
+      font-size: 9px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .scroll-cue { display: inline-flex; align-items: center; gap: 10px; }
+    .scroll-cue::before { width: 28px; height: 1px; content: ""; background: var(--gold-dark); }
+
+    .overview-grid { display: grid; grid-template-columns: 1.07fr .93fr; gap: 24px; }
+    .surface-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212,175,55,.15);
+      border-radius: 18px;
+      background:
+        radial-gradient(240px circle at var(--pointer-x, 50%) var(--pointer-y, 0%), rgba(212,175,55,.085), transparent 72%),
+        linear-gradient(145deg, rgba(20,20,20,.93), rgba(11,11,11,.94));
+      box-shadow: 0 20px 55px rgba(0,0,0,.19), inset 0 1px rgba(255,255,255,.018);
+      transition: transform .45s var(--ease), border-color .35s ease, box-shadow .35s ease;
+    }
+    .surface-card::before {
+      position: absolute;
+      top: 0;
+      left: 12%;
+      width: 55%;
+      height: 1px;
+      content: "";
+      opacity: .6;
+      background: linear-gradient(90deg, transparent, var(--champagne), transparent);
+    }
+    .surface-card:hover { transform: translateY(-7px); border-color: rgba(245,215,142,.48); box-shadow: 0 22px 58px rgba(0,0,0,.3), 0 0 38px rgba(212,175,55,.1); }
+    .overview-main { min-height: 300px; padding: 35px; }
+    .card-index { color: var(--gold); font-size: 10px; font-weight: 700; letter-spacing: .17em; }
+    .overview-main h3, .overview-mini h3 { margin: 18px 0 12px; font: 500 27px/1.25 Georgia, serif; }
+    .overview-main p, .overview-mini p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.9; }
+    .overview-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .overview-mini { min-height: 142px; padding: 21px; }
+    .overview-mini h3 { margin: 12px 0 6px; font-size: 18px; }
+    .overview-mini p { font-size: 11px; line-height: 1.75; }
+    .mini-icon { color: var(--champagne); font-size: 18px; line-height: 1; }
+
+    .features { background: radial-gradient(ellipse at 50% 40%, rgba(125,88,23,.055), transparent 58%); }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature-card { min-height: 226px; padding: 25px; }
+    .feature-icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid rgba(212,175,55,.28);
+      border-radius: 50%;
+      color: var(--champagne);
+      background: radial-gradient(circle at 30% 20%, rgba(212,175,55,.17), rgba(212,175,55,.025));
+      box-shadow: 0 0 22px rgba(212,175,55,.08);
+    }
+    .feature-icon svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.35; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-card h3 { margin: 22px 0 8px; font: 500 19px Georgia, serif; }
+    .feature-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .feature-icon { transition: transform .4s var(--ease), box-shadow .35s ease; }
+    .feature-card:hover .feature-icon { transform: rotate(-7deg) scale(1.08); box-shadow: 0 0 29px rgba(212,175,55,.2); }
+
+    .spec-layout { display: grid; grid-template-columns: .7fr 1.3fr; gap: 25px; }
+    .spec-intro { padding: 34px; }
+    .spec-intro .eyebrow { font-size: 9px; }
+    .spec-intro h3 { margin: 18px 0 13px; font: 500 29px/1.2 Georgia, serif; }
+    .spec-intro p { margin: 0; color: var(--muted); font-size: 12px; }
+    .spec-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .spec-item { min-height: 108px; padding: 20px; }
+    .spec-item span { display: block; color: #888276; font-size: 9px; letter-spacing: .11em; text-transform: uppercase; }
+    .spec-item strong { display: block; overflow-wrap: anywhere; margin-top: 11px; color: #e8dfc7; font-size: 12px; font-weight: 500; }
+
+    .requirements { background: linear-gradient(180deg, transparent, rgba(13,11,7,.54), transparent); }
+    .requirements-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 19px; }
+    .requirement-panel { padding: 28px; }
+    .requirement-heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid rgba(212,175,55,.16); }
+    .requirement-heading h3 { margin: 0; font: 500 23px Georgia, serif; }
+    .requirement-heading span { color: var(--gold); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
+    .requirement-list { display: grid; gap: 0; margin: 7px 0 0; padding: 0; list-style: none; }
+    .requirement-list li { display: flex; justify-content: space-between; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.045); color: #928e83; font-size: 11px; }
+    .requirement-list li:last-child { border-bottom: 0; }
+    .requirement-list strong { color: #ddd4bd; font-weight: 500; text-align: right; }
+    .recommended { border-color: rgba(212,175,55,.29); background: linear-gradient(145deg, rgba(35,28,14,.57), rgba(12,12,11,.94) 62%); }
+
+    .gallery-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 15px; }
+    .preview {
+      position: relative;
+      display: grid;
+      min-height: 220px;
+      overflow: hidden;
+      place-items: center;
+      border: 1px solid rgba(212,175,55,.2);
+      border-radius: 18px;
+      background:
+        radial-gradient(240px circle at var(--pointer-x, 50%) var(--pointer-y, 48%), rgba(212,175,55,.15), transparent 72%),
+        linear-gradient(145deg, #171717, #080808);
+      box-shadow: inset 0 0 35px rgba(0,0,0,.55);
+      transition: transform .35s var(--ease), border-color .35s ease;
+    }
+    .preview:first-child { min-height: 260px; }
+    .preview:hover { transform: translateY(-4px); border-color: rgba(245,215,142,.58); }
+    .preview::before, .preview::after { position: absolute; content: ""; pointer-events: none; }
+    .preview::before { inset: 12px; border: 1px solid rgba(212,175,55,.1); border-radius: 6px; }
+    .preview::after { top: 0; left: -100%; width: 60%; height: 100%; transform: skewX(-20deg); background: linear-gradient(90deg, transparent, rgba(245,215,142,.07), transparent); transition: left .8s var(--ease); }
+    .preview:hover::after { left: 140%; }
+    .preview-art { width: 70%; }
+    .mock-window { overflow: hidden; border: 1px solid rgba(212,175,55,.3); border-radius: 7px; background: #0c0c0c; box-shadow: 0 14px 35px rgba(0,0,0,.55); }
+    .mock-top { display: flex; height: 17px; align-items: center; gap: 4px; padding-left: 8px; border-bottom: 1px solid rgba(212,175,55,.12); background: #141414; }
+    .mock-top i { width: 4px; height: 4px; border-radius: 50%; background: #8c6b19; }
+    .mock-content { display: grid; min-height: 92px; grid-template-columns: 27% 1fr; gap: 8px; padding: 10px; }
+    .mock-sidebar { border-radius: 3px; background: linear-gradient(#241c0d 0 15%, #171717 15% 23%, #121212 23% 32%, #171717 32% 40%, #111 40%); }
+    .mock-main { display: grid; grid-template-rows: 1fr 30%; gap: 6px; }
+    .mock-hero { position: relative; overflow: hidden; border: 1px solid rgba(212,175,55,.16); border-radius: 3px; background: radial-gradient(ellipse at 70% 45%, rgba(212,175,55,.24), transparent 50%), #15130f; }
+    .mock-hero::after { position: absolute; top: 35%; left: 12%; width: 31%; height: 4px; content: ""; background: #d0aa4b; box-shadow: 0 9px 0 rgba(245,215,142,.23), 0 18px 0 rgba(245,215,142,.12); }
+    .mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+    .mock-cards i { border: 1px solid rgba(212,175,55,.1); border-radius: 2px; background: linear-gradient(145deg, #1a1916, #101010); }
+    .preview-caption { position: absolute; right: 17px; bottom: 14px; left: 17px; color: #a9a18d; font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
+    .preview-placeholder { color: #9c8b60; font: 500 clamp(14px, 1.5vw, 20px) Georgia, serif; letter-spacing: .1em; text-align: center; }
+    .preview-placeholder small { display: block; margin-top: 8px; color: #706b60; font: 9px ui-sans-serif, system-ui; letter-spacing: .1em; text-transform: uppercase; }
+
+    .download-section { padding-top: 72px; padding-bottom: 96px; }
+    .download-heading-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 820px) minmax(0, 1fr); align-items: end; gap: 30px; margin-bottom: 30px; }
+    .download-heading-row .section-heading { grid-column: 2; grid-row: 1; width: 100%; margin: 0; text-align: center; }
+    .download-heading-row .section-heading .eyebrow { justify-content: center; }
+    .download-heading-row .section-heading p { margin-inline: auto; }
+    .download-release { grid-column: 3; grid-row: 1; justify-self: end; padding: 10px 14px; border: 1px solid rgba(212,175,55,.22); border-radius: 999px; color: #cfc39f; background: rgba(212,175,55,.04); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+    .typing-cursor { display: inline-block; width: 2px; height: .82em; margin-left: 7px; vertical-align: -.08em; background: var(--champagne); box-shadow: 0 0 12px rgba(245,215,142,.7); animation: cursor-blink .85s steps(1,end) infinite; }
+    @keyframes cursor-blink { 50% { opacity: 0; } }
+    .platform-download-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .platform-download-card {
+      position: relative;
+      display: flex;
+      min-height: 470px;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 24px 30px 26px;
+      border: 1px solid rgba(212,175,55,.34);
+      border-radius: 10px;
+      background:
+        radial-gradient(280px circle at var(--pointer-x, 80%) var(--pointer-y, 25%), rgba(212,175,55,.09), transparent 74%),
+        linear-gradient(145deg, rgba(28,27,22,.98), rgba(12,12,11,.98));
+      box-shadow:
+        0 18px 52px rgba(0,0,0,.34),
+        0 0 22px rgba(212,175,55,.055),
+        inset 0 1px rgba(255,245,195,.07),
+        inset 0 -1px rgba(212,175,55,.08);
+      cursor: pointer;
+      transition: transform .35s var(--ease), border-color .35s ease, box-shadow .35s ease;
+    }
+    .platform-download-card::before {
+      position: absolute;
+      z-index: 0;
+      inset: 8px;
+      border: 1px solid rgba(212,175,55,.08);
+      border-radius: 6px;
+      content: "";
+      pointer-events: none;
+      transition: border-color .35s ease, box-shadow .35s ease;
+    }
+    .platform-download-card::after {
+      position: absolute;
+      z-index: 0;
+      top: -55%;
+      left: -35%;
+      width: 32%;
+      height: 210%;
+      content: "";
+      transform: rotate(24deg);
+      background: linear-gradient(90deg, transparent, rgba(245,215,142,.055), transparent);
+      pointer-events: none;
+      transition: left .8s var(--ease);
+    }
+    .platform-download-card > * { position: relative; z-index: 1; }
+    .platform-download-card.featured {
+      background:
+        radial-gradient(280px circle at 88% 42%, rgba(212,175,55,.12), transparent 72%),
+        linear-gradient(145deg, rgba(35,31,20,.98), rgba(12,12,11,.98));
+      border-color: rgba(212,175,55,.38);
+    }
+    .platform-download-card:hover { transform: translateY(-7px); border-color: rgba(245,215,142,.62); box-shadow: 0 28px 68px rgba(0,0,0,.38), 0 0 34px rgba(212,175,55,.14), 0 0 70px rgba(212,175,55,.055), inset 0 1px rgba(255,245,195,.1); }
+    .platform-download-card:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 4px; border-color: rgba(245,215,142,.7); }
+    .platform-download-card:hover::before { border-color: rgba(245,215,142,.16); box-shadow: inset 0 0 24px rgba(212,175,55,.025); }
+    .platform-download-card:hover::after { left: 135%; }
+    .platform-card-top { display: grid; grid-template-columns: 155px 1fr; align-items: center; gap: 15px; min-height: 145px; }
+    .platform-icon {
+      display: grid;
+      width: 148px;
+      height: 148px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(245,215,142,.38);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,.12), rgba(8,8,8,.82) 68%);
+      box-shadow: 0 14px 35px rgba(0,0,0,.38), 0 0 24px rgba(212,175,55,.11), inset 0 0 18px rgba(212,175,55,.055);
+    }
+    .platform-logo { width: 92%; height: 92%; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 10px 16px rgba(0,0,0,.48)); }
+    .platform-tag { display: none; }
+    .platform-download-card h3 { margin: 0; font: 700 25px/1.15 Georgia, serif; }
+    .platform-download-card.featured h3 { font-size: 25px; }
+    .platform-download-card p { min-height: 42px; max-width: 440px; margin: 0 0 20px; color: var(--muted); font-size: 12px; line-height: 1.75; }
+    .platform-download-card ul { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; color: #c3baa3; font-size: 12px; }
+    .platform-download-card ul li { position: relative; padding-left: 20px; }
+    .platform-download-card ul li::before { position: absolute; left: 0; top: .25em; width: 11px; height: 6px; border-bottom: 1.5px solid var(--champagne); border-left: 1.5px solid var(--champagne); content: ""; transform: rotate(-45deg); }
+    .platform-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
+    .platform-specs span { display: block; min-width: 0; padding: 9px 7px; border: 1px solid rgba(212,175,55,.12); border-radius: 7px; color: #948b73; background: rgba(212,175,55,.025); font-size: 8px; letter-spacing: .07em; line-height: 1.45; text-align: center; text-transform: uppercase; }
+    .platform-specs strong { display: block; margin-top: 3px; overflow-wrap: anywhere; color: #dfd3b3; font-size: 9px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+    .platform-card-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: auto;
+      padding-top: 18px;
+    }
+    .platform-card-action button {
+      position: relative;
+      display: inline-flex;
+      min-width: 240px;
+      min-height: 58px;
+      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 22px;
+      border: 1px solid rgba(255,233,166,.9);
+      border-radius: 999px;
+      color: #171107;
+      background: linear-gradient(110deg, #98701d, #d4af37 42%, #ffe9a6 72%, #bd9130);
+      box-shadow: 0 10px 30px rgba(164,123,31,.3), 0 0 0 4px rgba(212,175,55,.08), inset 0 1px rgba(255,255,255,.7);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      cursor: pointer;
+      isolation: isolate;
+      transition: transform .28s var(--ease), box-shadow .28s ease, filter .28s ease;
+    }
+    .platform-card-action button::before {
+      position: absolute;
+      z-index: -1;
+      top: -50%;
+      left: -70%;
+      width: 38%;
+      height: 200%;
+      content: "";
+      transform: rotate(25deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+      transition: left .65s var(--ease);
+    }
+    .platform-card-action button:hover { transform: translateY(-3px); filter: saturate(1.12); box-shadow: 0 14px 38px rgba(212,175,55,.42), 0 0 0 6px rgba(212,175,55,.11), inset 0 1px rgba(255,255,255,.8); }
+    .platform-card-action button:hover::before { left: 135%; }
+    .platform-card-action button:active { transform: translateY(-1px) scale(.98); }
+    .platform-card-action button:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 4px; }
+    .platform-card-action button > span, .platform-card-action button > i { position: relative; z-index: 1; }
+    .platform-card-action .download-button-icon { width: 28px; height: 28px; border: 1px solid rgba(23,17,7,.22); border-radius: 50%; background: rgba(23,17,7,.1); transition: transform .28s var(--ease), background .28s ease; }
+    .platform-card-action .download-button-icon svg { width: 17px; height: 17px; }
+    .platform-card-action button:hover .download-button-icon { transform: translateY(2px); background: rgba(23,17,7,.16); }
+    .download-panel {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 36px;
+      overflow: hidden;
+      padding: 48px 50px;
+      border: 1px solid rgba(212,175,55,.39);
+      border-radius: 26px;
+      background:
+        radial-gradient(360px circle at var(--pointer-x, 7%) var(--pointer-y, 50%), rgba(212,175,55,.12), transparent 76%),
+        radial-gradient(ellipse at 7% 50%, rgba(167,121,28,.15), transparent 40%),
+        linear-gradient(115deg, rgba(26,22,14,.94), rgba(11,11,10,.97) 53%, rgba(20,16,9,.92));
+      box-shadow: 0 25px 85px rgba(0,0,0,.35), 0 0 55px rgba(212,175,55,.07), inset 0 1px rgba(255,255,255,.04);
+    }
+    .download-panel::before { position: absolute; inset: 9px; border: 1px solid rgba(212,175,55,.1); border-radius: 18px; content: ""; pointer-events: none; }
+    .download-panel::after { position: absolute; top: -40%; left: -15%; width: 32%; height: 180%; transform: rotate(23deg); content: ""; background: linear-gradient(90deg, transparent, rgba(245,215,142,.04), transparent); animation: panel-shine 8s ease-in-out infinite; pointer-events: none; }
+    .download-info { position: relative; z-index: 1; }
+    .download-info h2 { margin: 15px 0 11px; font: 500 clamp(28px, 4vw, 43px)/1.15 Georgia, serif; }
+    .download-info p { max-width: 550px; margin: 0; color: var(--muted); font-size: 12px; }
+    .download-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .download-cta { position: relative; z-index: 1; min-width: 225px; text-align: center; }
+    .download-cta .button { width: 100%; min-height: 58px; box-shadow: 0 0 0 5px rgba(212,175,55,.06), 0 10px 35px rgba(164,123,31,.28), inset 0 1px rgba(255,255,255,.6); animation: button-glow 3.8s ease-in-out infinite; }
+    .download-cta p { margin: 13px 0 0; color: #817966; font-size: 9px; }
+    .faq-list { max-width: 830px; margin-inline: auto; }
+    .faq-item { margin-bottom: 10px; border: 1px solid rgba(212,175,55,.14); border-radius: 17px; background: rgba(17,17,17,.75); transition: border-color .25s ease, background .25s ease, box-shadow .25s ease; }
+    .faq-item[open] { border-color: rgba(212,175,55,.35); background: rgba(22,20,15,.8); box-shadow: 0 0 24px rgba(212,175,55,.065); }
+    .faq-item summary { display: flex; min-height: 67px; align-items: center; justify-content: space-between; gap: 20px; padding: 17px 21px; color: #e6decb; font-size: 13px; cursor: pointer; list-style: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-mark { position: relative; flex: 0 0 21px; width: 21px; height: 21px; border: 1px solid rgba(212,175,55,.35); border-radius: 50%; }
+    .faq-mark::before, .faq-mark::after { position: absolute; top: 9px; left: 6px; width: 7px; height: 1px; content: ""; background: var(--champagne); transition: transform .25s ease; }
+    .faq-mark::after { transform: rotate(90deg); }
+    .faq-item[open] .faq-mark::after { transform: rotate(0); }
+    .faq-answer { overflow: hidden; }
+    .faq-answer p { margin: -2px 21px 20px; color: var(--muted); font-size: 12px; line-height: 1.85; }
+
+    footer { padding: 0; border: 0; background: transparent; }
+    .footer-card { display: flex; width: fit-content; max-width: 100%; align-items: center; gap: 12px; margin: 0 auto; padding: 10px 16px; border: 1px solid rgba(212,175,55,.22); border-radius: 12px; background: linear-gradient(135deg, rgba(24,22,17,.96), rgba(10,10,10,.96)); box-shadow: 0 8px 24px rgba(0,0,0,.24); }
+    .footer-card img { display: block; width: 42px; height: 42px; object-fit: contain; }
+    .footer-card span { color: var(--champagne); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+    .back-top {
+      position: fixed;
+      z-index: 10;
+      right: 24px;
+      bottom: 24px;
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid rgba(212,175,55,.38);
+      border-radius: 50%;
+      color: var(--champagne);
+      background: rgba(9,9,9,.84);
+      box-shadow: 0 0 22px rgba(212,175,55,.12);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease, background .25s ease;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-top:hover { background: rgba(212,175,55,.13); box-shadow: 0 0 30px rgba(212,175,55,.28); transform: translateY(-3px); }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .08s; }
+    .reveal-delay-2 { transition-delay: .16s; }
+    .reveal-delay-3 { transition-delay: .24s; }
+    #particles { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .7; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; clip-path: inset(50%); }
+
+    body.light-theme {
+      color-scheme: light;
+      --black: #f5f3ed;
+      --black-2: #fff;
+      --surface: #fff;
+      --surface-2: #f0ede4;
+      --gold: #a77c13;
+      --gold-bright: #a27700;
+      --champagne: #8c6715;
+      --gold-dark: #8c6b19;
+      --gold-light: #8b650e;
+      --muted: #625d52;
+      --text: #27241e;
+      --line: rgba(132,98,20,.24);
+      background: var(--black);
+    }
+    body.light-theme::before { opacity: .045; }
+    body.light-theme::after { display: none; }
+    body.light-theme .topbar { border-bottom-color: rgba(132,98,20,.24); background: rgba(255,255,255,.96); }
+    body.light-theme .nav-links { border-color: rgba(132,98,20,.2); background: rgba(255,255,255,.98); box-shadow: 0 16px 35px rgba(58,48,25,.14); }
+    body.light-theme .nav-links a, body.light-theme .nav-download { color: #302917 !important; }
+    body.light-theme .nav-links a:hover, body.light-theme .nav-links a.active, body.light-theme .nav-download:hover, body.light-theme .nav-download.active { color: #a27700 !important; text-shadow: 0 0 8px rgba(212,175,55,.25); }
+    body.light-theme .menu-toggle { color: #302917; background: #fff; }
+    body.light-theme .theme-switch { border-color: rgba(132,98,20,.25); background: rgba(255,255,255,.9); }
+    body.light-theme .theme-switch button { color: #302917; }
+    body.light-theme .theme-switch button[aria-pressed="true"] { color: #171107; }
+    body.light-theme .version-pill, body.light-theme .platform-pill { color: #514832; background: rgba(255,255,255,.78); }
+    body.light-theme .hero-copy > p, body.light-theme .hero-meta, body.light-theme .logo-caption { color: #625d52; }
+    body.light-theme .button-secondary { color: #453816; background: rgba(255,255,255,.82); }
+    body.light-theme .logo-stage { background: radial-gradient(circle, rgba(212,175,55,.15), rgba(255,255,255,.65) 62%, transparent 76%); }
+    body.light-theme .floating-label { color: #514832; background: rgba(255,255,255,.9); }
+    body.light-theme .surface-card { border-color: rgba(132,98,20,.2); background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(247,244,235,.98)); box-shadow: 0 14px 38px rgba(58,48,25,.09), inset 0 1px rgba(255,255,255,.9); }
+    body.light-theme .surface-card:hover { box-shadow: 0 18px 42px rgba(58,48,25,.14), 0 0 24px rgba(212,175,55,.12); }
+    body.light-theme .spec-item span, body.light-theme .preview-caption, body.light-theme .download-cta p { color: #625d52; }
+    body.light-theme .spec-item strong, body.light-theme .requirement-list strong { color: #302917; }
+    body.light-theme .requirements { background: linear-gradient(180deg, transparent, rgba(132,98,20,.045), transparent); }
+    body.light-theme .requirement-list li { border-bottom-color: rgba(70,60,40,.1); color: #625d52; }
+    body.light-theme .recommended { background: linear-gradient(145deg, rgba(255,250,231,.98), rgba(255,255,255,.98) 62%); }
+    body.light-theme .preview { border-color: rgba(132,98,20,.2); background: radial-gradient(240px circle at var(--pointer-x, 50%) var(--pointer-y, 48%), rgba(212,175,55,.12), transparent 72%), linear-gradient(145deg, #fff, #f1eee5); box-shadow: inset 0 0 35px rgba(91,74,34,.06); }
+    body.light-theme .platform-download-card { border-color: rgba(132,98,20,.25); background: linear-gradient(145deg, rgba(255,255,255,.99), rgba(245,242,233,.99)); box-shadow: 0 18px 45px rgba(58,48,25,.12), 0 0 18px rgba(212,175,55,.05), inset 0 1px #fff; }
+    body.light-theme .platform-download-card.featured { border-color: rgba(167,124,19,.4); background: linear-gradient(145deg, #fffdf6, #f7f2e3); }
+    body.light-theme .platform-download-card ul { color: #514c40; }
+    body.light-theme .platform-specs span { color: #625d52; background: rgba(132,98,20,.04); }
+    body.light-theme .platform-specs strong { color: #302917; }
+    body.light-theme .platform-icon { background: radial-gradient(circle, rgba(212,175,55,.12), rgba(255,255,255,.94) 72%); }
+    body.light-theme .download-panel { border-color: rgba(132,98,20,.28); background: linear-gradient(115deg, rgba(255,253,246,.98), rgba(255,255,255,.99) 53%, rgba(247,243,232,.98)); box-shadow: 0 20px 60px rgba(58,48,25,.12), 0 0 35px rgba(212,175,55,.07), inset 0 1px #fff; }
+    body.light-theme .download-release { color: #625126; background: rgba(212,175,55,.08); }
+    body.light-theme .faq-item { border-color: rgba(132,98,20,.18); background: rgba(255,255,255,.88); }
+    body.light-theme .faq-item[open] { background: #fffdf7; }
+    body.light-theme .faq-item summary { color: #302917; }
+    body.light-theme .footer-card { border-color: rgba(132,98,20,.22); background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(245,242,233,.98)); box-shadow: 0 8px 24px rgba(58,48,25,.1); }
+    body.light-theme .back-top { color: #805e12; background: rgba(255,255,255,.92); }
+
+    @keyframes ambient { from { opacity: .72; transform: translateX(-50%) scale(.94); } to { opacity: 1; transform: translateX(-50%) scale(1.07); } }
+    @keyframes orbit { to { transform: translate(-50%, -50%) rotate(329deg); } }
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes panel-shine { 0%,68% { left: -50%; } 95%,100% { left: 130%; } }
+    @keyframes halo-rotate { to { transform: rotate(360deg); } }
+    @keyframes halo-breathe { 0%,100% { opacity: .35; transform: scale(.98); } 50% { opacity: .85; transform: scale(1.035); } }
+    @keyframes logo-breathe { 0%,100% { box-shadow: 0 0 0 10px rgba(212,175,55,.025), 0 0 0 24px rgba(212,175,55,.018), 0 0 100px rgba(212,175,55,.18); } 50% { box-shadow: 0 0 0 13px rgba(212,175,55,.035), 0 0 0 30px rgba(212,175,55,.022), 0 0 125px rgba(212,175,55,.3); } }
+    @keyframes button-glow { 0%,100% { box-shadow: 0 0 0 4px rgba(212,175,55,.045), 0 8px 27px rgba(164,123,31,.2), inset 0 1px rgba(255,255,255,.6); } 50% { box-shadow: 0 0 0 6px rgba(212,175,55,.075), 0 10px 38px rgba(212,175,55,.34), inset 0 1px rgba(255,255,255,.7); } }
+    @keyframes divider-glint { to { background-position: 200% 0; } }
+    @keyframes gold-sheen { 0%,100% { background-position: 0 50%; } 50% { background-position: 100% 50%; } }
+
+    @media (max-width: 920px) {
+      .nav-links { gap: 6px; }
+      .nav-links a { padding: 8px 7px; font-size: 15px; }
+      .nav-download { font-size: 15px !important; }
+      .download-release { display: none; }
+      .hero-layout { grid-template-columns: 1fr .8fr; gap: 15px; }
+      .hero-art { min-height: 390px; }
+      .logo-stage { width: min(270px, 58vw); }
+      .floating-label.left { left: 0; }
+      .floating-label.right { right: 0; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .spec-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      html { scroll-padding-top: 78px; }
+      .wrap { width: min(var(--content), calc(100% - 36px)); }
+      .section { padding: 64px 0; }
+      .nav-inner { height: 50px; padding: 0 14px; }
+      .menu-toggle { display: grid; place-items: center; }
+      .menu-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+      .nav-links {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        left: 0;
+        display: none;
+        align-items: stretch;
+        gap: 8px;
+        padding: 8px 15px 14px;
+        border: 1px solid rgba(212,175,55,.2);
+        border-radius: 10px;
+        background: rgba(8,8,8,.97);
+        box-shadow: 0 16px 35px rgba(0,0,0,.45);
+      }
+      .nav-links.open { display: flex; flex-direction: column; }
+      .nav-links a { padding: 12px 5px; font-size: 16px; }
+      .nav-download { margin-top: 0; font-size: 16px !important; text-align: center; }
+      .hero { min-height: auto; padding: 24px 0 28px; }
+      .hero-layout { grid-template-columns: 1fr; gap: 0; }
+      .hero-copy { text-align: center; }
+      .hero-copy .eyebrow { justify-content: center; }
+      .hero h1 { margin-inline: auto; font-size: clamp(52px, 13vw, 78px); }
+      .hero-copy > p { margin-inline: auto; font-size: 13px; }
+      .hero-actions, .hero-meta { justify-content: center; }
+      .hero-art { min-height: 340px; margin-top: 13px; }
+      .logo-stage { width: 220px; }
+      .orbital { width: min(100%, 355px); }
+      .floating-label { font-size: 8px; }
+      .hero-bottom { margin-top: 13px; font-size: 8px; }
+      .section-heading { margin-bottom: 35px; }
+      .feature-grid { grid-template-columns: 1fr 1fr; gap: 11px; }
+      .feature-card { min-height: 220px; padding: 20px; }
+      .feature-card h3 { font-size: 17px; }
+      .overview-main { min-height: auto; padding: 27px; }
+      .overview-mini-grid { gap: 10px; }
+      .overview-mini { padding: 17px; }
+      .spec-grid { grid-template-columns: repeat(2,1fr); }
+      .requirements-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .preview:first-child { grid-column: 1 / -1; }
+      .download-section { padding-top: 32px; padding-bottom: 64px; }
+      .download-heading-row { grid-template-columns: minmax(0, 1fr); align-items: flex-start; }
+      .download-heading-row .section-heading { grid-column: 1; }
+      .platform-download-grid { grid-template-columns: 1fr 1fr; }
+      .platform-download-card { padding: 22px 20px 24px; }
+      .platform-card-top { grid-template-columns: 115px 1fr; min-height: 125px; }
+      .platform-icon { width: 108px; height: 108px; font-size: 44px; }
+      .platform-download-card h3 { font-size: 21px; }
+      .download-panel { grid-template-columns: 1fr; gap: 25px; padding: 34px 26px; text-align: center; }
+      .download-panel .eyebrow { justify-content: center; }
+      .download-meta { justify-content: center; }
+      .download-cta { width: min(100%, 360px); margin-inline: auto; }
+    }
+    @media (max-width: 420px) {
+      .wrap { width: calc(100% - 28px); }
+      .brand-logo { width: 100px; }
+      .hero h1 { font-size: 50px; }
+      .hero-actions { gap: 9px; }
+      .hero-actions .button { min-height: 47px; padding-inline: 14px; font-size: 9px; }
+      .hero-art { min-height: 300px; }
+      .logo-stage { width: 190px; }
+      .overview-mini-grid, .feature-grid, .platform-download-grid { grid-template-columns: 1fr; }
+      .feature-card { min-height: auto; }
+      .spec-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .spec-item { min-height: 96px; padding: 15px; }
+      .gallery-grid { gap: 9px; }
+      .preview { min-height: 170px; }
+      .preview:first-child { min-height: 205px; }
+      .back-top { right: 13px; bottom: 13px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+      #particles { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <video id="page-background" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="darkwinbg.mp4" type="video/mp4">
+  </video>
+  <header class="topbar" id="topbar">
+    <nav class="nav-inner wrap" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Darkwin home">
+        <img class="brand-logo" src="darkwinheaderlogo.png" alt="Darkwin" width="1672" height="941">
+      </a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primaryNav">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="nav-links" id="primaryNav">
+        <a href="#home" class="active">Home</a>
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#specifications">Specifications</a>
+        <a href="#faq">FAQ</a>
+        <a href="#download" class="nav-download">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <p class="top-typewriter" aria-hidden="true">Choose your <span class="gold-text typewriter-word">Platform</span><span class="typing-cursor"></span></p>
+    <div class="theme-switch-wrap">
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" data-theme-option="light" aria-pressed="false">LIGHT</button>
+        <button type="button" data-theme-option="dark" aria-pressed="true">DARK</button>
+      </div>
+    </div>
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <canvas id="particles" aria-hidden="true"></canvas>
+      <div class="wrap">
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <span class="eyebrow">Software information &amp; download</span>
+            <span class="version-pill"><i aria-hidden="true"></i> Latest version: <span data-detail="version">Not provided</span></span>
+            <h1 id="hero-title">Learn. Solve.<br><span class="gold-text">Explore more.</span></h1>
+            <p>Darkwin brings together learning support for classes 1–12, problem-solving resources, useful digital tools, APKs, and additional services. Explore what’s available and check each item’s details before use.</p>
+            <div class="hero-actions">
+              <a class="button" href="#download"><span>Download</span><i class="download-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 17v3h14v-3"/></svg></i></a>
+              <a class="button button-secondary" href="#features"><span>Discover features</span><span aria-hidden="true">↓</span></a>
+            </div>
+            <div class="hero-meta" aria-label="Platform and release information">
+              <span>Education · Tools · Services</span><span>Availability may vary</span>
+            </div>
+          </div>
+          <div class="hero-art" aria-label="Darkwin circular logo">
+            <div class="orbital" aria-hidden="true"><div class="orbit-line"></div></div>
+            <span class="floating-label left">A considered experience</span>
+            <div class="logo-stage">
+              <img class="logo-image" src="darkwinlogo.png" alt="Darkwin logo" width="1254" height="1254">
+              <span class="logo-caption">Darkwin</span>
+            </div>
+            <span class="floating-label right">Designed for focus</span>
+          </div>
+        </div>
+        <div class="hero-bottom">
+          <span>Independent software information</span>
+          <span class="scroll-cue">Scroll to discover</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="overview" aria-labelledby="overview-title">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <span class="eyebrow">The overview</span>
+          <h2 id="overview-title">Purpose, with <span class="gold-text">precision.</span></h2>
+          <p>A multi-purpose platform bringing education support and practical digital resources together.</p>
+        </div>
+        <div class="overview-grid">
+          <article class="surface-card overview-main reveal">
+            <span class="card-index">01 / INTRODUCTION</span>
+            <h3>What is Darkwin?</h3>
+            <p>Darkwin is a multi-purpose software platform for learning, problem solving, digital tools, APKs, and additional services. Its education offering is intended to support learners from class 1 through class 12. Specific subjects, features, and service availability depend on what Darkwin currently provides.</p>
+          </article>
+          <div class="overview-mini-grid">
+            <article class="surface-card overview-mini reveal reveal-delay-1">
+              <span class="mini-icon" aria-hidden="true">✳</span>
+              <h3>Learning support</h3>
+              <p>Education-related resources for students in classes 1–12. Check Darkwin for the subjects and materials currently available.</p>
+            </article>
+            <article class="surface-card overview-mini reveal reveal-delay-2">
+              <span class="mini-icon" aria-hidden="true">⌁</span>
+              <h3>Problem solving</h3>
+              <p>Problem-solving resources and solutions for the needs supported by the platform.</p>
+            </article>
+            <article class="surface-card overview-mini reveal reveal-delay-1">
+              <span class="mini-icon" aria-hidden="true">◈</span>
+              <h3>Tools &amp; APKs</h3>
+              <p>Explore the digital tools and APKs offered through Darkwin. Review source and compatibility details before installing.</p>
+            </article>
+            <article class="surface-card overview-mini reveal reveal-delay-2">
+              <span class="mini-icon" aria-hidden="true">⌘</span>
+              <h3>More services</h3>
+              <p>Additional and advanced services are part of Darkwin’s broader offering; check the platform for current details.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section features" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Capabilities</span>
+          <h2 id="features-title">Made to work <span class="gold-text">beautifully.</span></h2>
+          <p>Darkwin brings together learning, problem-solving resources, digital tools, APKs, and additional services in one place.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="surface-card feature-card reveal">
+            <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17.5 9.5 12l3.5 3.5L20 8.5"/><path d="M15 8.5h5v5"/></svg></span>
+            <h3>Classes 1–12 learning</h3><p>Education support for learners from class 1 through class 12. Subjects, curriculum coverage, and materials may vary.</p>
+          </article>
+          <article class="surface-card feature-card reveal reveal-delay-1">
+            <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3 2"/></svg></span>
+            <h3>Problem-solving resources</h3><p>Access problem-solving help for the topics and needs supported by Darkwin.</p>
+          </article>
+          <article class="surface-card feature-card reveal reveal-delay-2">
+            <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5 19 7v5.5c0 4.1-3 6.8-7 8-4-1.2-7-3.9-7-8V7z"/><path d="m9 12 2 2 4-4"/></svg></span>
+            <h3>Digital tools</h3><p>Discover useful tools provided through the platform. Check each tool’s description and requirements.</p>
+          </article>
+          <article class="surface-card feature-card reveal">
+            <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4.5" width="16" height="15" rx="2"/><path d="M8 8.5h8M8 12h5M8 15.5h8"/></svg></span>
+            <h3>APK resources</h3><p>Find APKs made available through Darkwin. Verify the source, version, and device compatibility before installing.</p>
+          </article>
+          <article class="surface-card feature-card reveal reveal-delay-1">
+            <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18.5h16M6.5 15V9.5M12 15V5M17.5 15v-3.5"/></svg></span>
+            <h3>Additional services</h3><p>Darkwin also offers other services. Specific features and availability are subject to change.</p>
+          </article>
+          <article class="surface-card feature-card reveal reveal-delay-2">
+            <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="5.5"/><path d="m10 12 1.3 1.3L14.5 10"/></svg></span>
+            <h3>One broad platform</h3><p>Explore education, problem-solving, tools, APKs, and services through Darkwin.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="specifications" aria-labelledby="specifications-title">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Product details</span>
+          <h2 id="specifications-title">The essential <span class="gold-text">details.</span></h2>
+          <p>Confirm each item with the publisher before distributing or linking to an installer.</p>
+        </div>
+        <div class="spec-layout">
+          <article class="surface-card spec-intro reveal">
+            <span class="eyebrow">At a glance</span>
+            <h3>Everything you need to know.</h3>
+            <p>Software information can change between releases. Check the official publisher's page for the latest verified details.</p>
+          </article>
+          <div class="spec-grid">
+            <div class="surface-card spec-item reveal"><span>Software name</span><strong>Darkwin</strong></div>
+            <div class="surface-card spec-item reveal reveal-delay-1"><span>Version</span><strong data-detail="version">Not provided</strong></div>
+            <div class="surface-card spec-item reveal reveal-delay-2"><span>Developer</span><strong>[Not provided]</strong></div>
+            <div class="surface-card spec-item reveal"><span>Release date</span><strong>[Not provided]</strong></div>
+            <div class="surface-card spec-item reveal reveal-delay-1"><span>Platform</span><strong data-detail="platform">Not provided</strong></div>
+            <div class="surface-card spec-item reveal reveal-delay-2"><span>File format</span><strong>[Not provided]</strong></div>
+            <div class="surface-card spec-item reveal"><span>Download size</span><strong data-detail="size">Not provided</strong></div>
+            <div class="surface-card spec-item reveal reveal-delay-1"><span>Category</span><strong>[Not provided]</strong></div>
+            <div class="surface-card spec-item reveal reveal-delay-2"><span>License</span><strong>[Not provided]</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section requirements" id="requirements" aria-labelledby="requirements-title">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Compatibility</span>
+          <h2 id="requirements-title">Know before <span class="gold-text">you install.</span></h2>
+          <p>System requirements are publisher-confirmed placeholders. Verify them for the version and platform you intend to use.</p>
+        </div>
+        <div class="requirements-grid">
+          <article class="surface-card requirement-panel reveal">
+            <div class="requirement-heading"><h3>Minimum</h3><span>Baseline</span></div>
+            <ul class="requirement-list">
+              <li><span>Operating system</span><strong>[Not provided]</strong></li>
+              <li><span>Processor</span><strong>[Not provided]</strong></li>
+              <li><span>Memory</span><strong>[Not provided]</strong></li>
+              <li><span>Storage</span><strong>[Not provided]</strong></li>
+              <li><span>Additional</span><strong>[Not provided]</strong></li>
+            </ul>
+          </article>
+          <article class="surface-card requirement-panel recommended reveal reveal-delay-1">
+            <div class="requirement-heading"><h3>Recommended</h3><span>For best results</span></div>
+            <ul class="requirement-list">
+              <li><span>Operating system</span><strong>[Not provided]</strong></li>
+              <li><span>Processor</span><strong>[Not provided]</strong></li>
+              <li><span>Memory</span><strong>[Not provided]</strong></li>
+              <li><span>Storage</span><strong>[Not provided]</strong></li>
+              <li><span>Additional</span><strong>[Not provided]</strong></li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gallery" aria-labelledby="gallery-title">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <span class="eyebrow">A closer look</span>
+          <h2 id="gallery-title">A glimpse of the <span class="gold-text">experience.</span></h2>
+          <p>Preview frames are illustrative placeholders, not actual screenshots of the software.</p>
+        </div>
+        <div class="gallery-grid">
+          <figure class="preview reveal">
+            <div class="preview-art mock-window" aria-hidden="true">
+              <div class="mock-top"><i></i><i></i><i></i></div>
+              <div class="mock-content"><div class="mock-sidebar"></div><div class="mock-main"><div class="mock-hero"></div><div class="mock-cards"><i></i><i></i><i></i></div></div></div>
+            </div>
+            <figcaption class="preview-caption">Interface preview placeholder</figcaption>
+          </figure>
+          <figure class="preview reveal reveal-delay-1">
+            <div class="preview-placeholder">Preview 02<small>Replace with verified screenshot</small></div>
+            <figcaption class="preview-caption">Feature preview placeholder</figcaption>
+          </figure>
+          <figure class="preview reveal reveal-delay-2">
+            <div class="preview-placeholder">Preview 03<small>Replace with verified screenshot</small></div>
+            <figcaption class="preview-caption">Workspace preview placeholder</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section download-section" id="download" aria-labelledby="download-title">
+      <div class="wrap">
+        <div class="download-heading-row reveal">
+          <div class="section-heading">
+            <span class="eyebrow">Downloads</span>
+            <h2 id="download-title">Choose your <span class="gold-text typewriter-word" id="downloadTypewriter">Platform</span><span class="typing-cursor" aria-hidden="true"></span></h2>
+            <p>Select a destination that matches your device. Always verify the publisher and compatibility before installing.</p>
+          </div>
+          <span class="download-release"><span data-detail="version">Latest release</span></span>
+        </div>
+        <div class="platform-download-grid">
+          <article class="platform-download-card featured reveal" id="desktopDownloadCard" role="button" tabindex="0" aria-label="Download Darkwin for desktop">
+            <div class="platform-card-top">
+              <span class="platform-icon" aria-hidden="true"><img class="platform-logo" src="darkwinlogo.png" alt="" width="1254" height="1254"></span>
+              <div>
+                <h3>Desktop</h3>
+              </div>
+            </div>
+            <ul>
+              <li>Direct access to Darkwin tools</li>
+              <li>Complete desktop workspace</li>
+              <li>Built for PC systems</li>
+            </ul>
+            <div class="platform-specs" aria-label="Desktop software details">
+              <span>Package<strong>Installer</strong></span>
+              <span>System<strong>PC / Desktop</strong></span>
+              <span>Edition<strong>Full</strong></span>
+            </div>
+            <p>Desktop edition for learning, problem-solving, digital tools, and Darkwin services.</p>
+            <div class="platform-card-action">
+              <button type="button" id="downloadButton"><span>Download Desktop</span><i class="download-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 17v3h14v-3"/></svg></i></button>
+            </div>
+          </article>
+          <article class="platform-download-card reveal reveal-delay-1" id="androidDownloadCard" role="button" tabindex="0" aria-label="Download Darkwin for Android">
+            <div class="platform-card-top">
+              <span class="platform-icon" aria-hidden="true"><img class="platform-logo" src="darkwinlogo.png" alt="" width="1254" height="1254"></span>
+              <div>
+                <h3>Android</h3>
+              </div>
+            </div>
+            <ul>
+              <li>Android APK package</li>
+              <li>Optimized mobile experience</li>
+              <li>Check device compatibility</li>
+            </ul>
+            <div class="platform-specs" aria-label="Android software details">
+              <span>Package<strong>APK</strong></span>
+              <span>System<strong>Android</strong></span>
+              <span>Edition<strong>Mobile</strong></span>
+            </div>
+            <p>Portable Darkwin access for supported Android devices, with mobile-focused tools and resources.</p>
+            <div class="platform-card-action">
+              <button type="button" id="androidDownloadButton"><span>Download APK</span><i class="download-button-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5"/><path d="M5 17v3h14v-3"/></svg></i></button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Questions, answered</span>
+          <h2 id="faq-title">A little more <span class="gold-text">clarity.</span></h2>
+          <p>Helpful reminders for finding the right version and downloading software with care.</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item reveal">
+            <summary><span>Where does the download button take me?</span><span class="faq-mark" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>The Android button downloads darkwin.apk, and the desktop button downloads darkwin.exe from this site.</p></div>
+          </details>
+          <details class="faq-item reveal reveal-delay-1">
+            <summary><span>How can I verify that a download is legitimate?</span><span class="faq-mark" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Use a link published by the software developer or an authorized distributor. Check the domain, release details, and any publisher-provided checksums or signatures before installing.</p></div>
+          </details>
+          <details class="faq-item reveal reveal-delay-2">
+            <summary><span>Are the version and system requirements current?</span><span class="faq-mark" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Not yet. Values marked “Not provided” or shown in brackets are placeholders. Confirm current details with the official publisher before relying on them.</p></div>
+          </details>
+          <details class="faq-item reveal">
+            <summary><span>Is this page the software developer's official website?</span><span class="faq-mark" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>This template does not make that claim. Add accurate ownership and publisher information before publication, and link to the developer's official website where appropriate.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-card">
+        <img src="building.svg" alt="">
+        <span>Building Zone</span>
+      </div>
+    </div>
+  </footer>
+  <button class="back-top" id="backTop" type="button" aria-label="Back to top">↑</button>
+
+  <script>
+    "use strict";
+
+    const SOFTWARE_DOWNLOAD_FILES = {
+      Desktop: "darkwin.exe",
+      Android: "darkwin.apk"
+    };
+    const SOFTWARE_DETAILS = {
+      version: "Not provided",
+      platform: "Platform not provided",
+      size: "Not provided"
+    };
+
+    document.querySelectorAll("[data-detail]").forEach((element) => {
+      const key = element.dataset.detail;
+      if (Object.hasOwn(SOFTWARE_DETAILS, key)) {
+        element.textContent = SOFTWARE_DETAILS[key];
+      }
+    });
+
+    const backTop = document.getElementById("backTop");
+    const pageBackground = document.getElementById("page-background");
+    const pageBackgroundSource = pageBackground.querySelector("source");
+    const menuToggle = document.getElementById("menuToggle");
+    const primaryNav = document.getElementById("primaryNav");
+    const downloadButton = document.getElementById("downloadButton");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const themeButtons = [...document.querySelectorAll("[data-theme-option]")];
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    themeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const theme = button.dataset.themeOption;
+        const isLight = theme === "light";
+        document.body.classList.toggle("light-theme", isLight);
+        themeButtons.forEach((themeButton) => {
+          themeButton.setAttribute("aria-pressed", String(themeButton === button));
+        });
+        const backgroundFile = isLight ? "darkwinlightbg.mp4" : "darkwinbg.mp4";
+        if (pageBackgroundSource.getAttribute("src") !== backgroundFile) {
+          pageBackgroundSource.setAttribute("src", backgroundFile);
+          pageBackground.load();
+        }
+        themeColorMeta.content = isLight ? "#f5f3ed" : "#070707";
+      });
+    });
+
+    function onScroll() {
+      backTop.classList.toggle("visible", window.scrollY > 560);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = primaryNav.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+    });
+    primaryNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        primaryNav.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+      });
+    });
+
+    backTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+    });
+
+    function startDownload(platform) {
+      const file = SOFTWARE_DOWNLOAD_FILES[platform];
+      if (!file) {
+        console.error(`Unsupported download platform: ${platform}`);
+        return;
+      }
+      const link = document.createElement("a");
+      link.href = file;
+      link.download = file;
+      link.hidden = true;
+      document.body.append(link);
+      link.click();
+      link.remove();
+    }
+
+    downloadButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      startDownload("Desktop");
+    });
+    document.getElementById("androidDownloadButton").addEventListener("click", (event) => {
+      event.stopPropagation();
+      startDownload("Android");
+    });
+    document.querySelectorAll(".platform-download-card").forEach((card) => {
+      const platform = card.id === "androidDownloadCard" ? "Android" : "Desktop";
+      card.addEventListener("click", () => startDownload(platform));
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          startDownload(platform);
+        }
+      });
+    });
+
+    const downloadTypewriters = document.querySelectorAll(".typewriter-word");
+    const downloadWords = ["Platform", "Darkwin"];
+    let downloadWordIndex = 0;
+    function setDownloadHeadingWord(word) {
+      downloadTypewriters.forEach((typewriter) => {
+        typewriter.textContent = word;
+      });
+    }
+    if (reducedMotion) {
+      window.setInterval(() => {
+        downloadWordIndex = (downloadWordIndex + 1) % downloadWords.length;
+        setDownloadHeadingWord(downloadWords[downloadWordIndex]);
+      }, 3000);
+    } else {
+      function cycleDownloadHeading() {
+        let remainingCharacters = downloadWords[downloadWordIndex].length;
+        function eraseWord() {
+          if (remainingCharacters > 0) {
+            setDownloadHeadingWord(downloadWords[downloadWordIndex].slice(0, --remainingCharacters));
+            window.setTimeout(eraseWord, 65);
+            return;
+          }
+          downloadWordIndex = (downloadWordIndex + 1) % downloadWords.length;
+          let visibleCharacters = 0;
+          function typeWord() {
+            const nextWord = downloadWords[downloadWordIndex];
+            if (visibleCharacters < nextWord.length) {
+              setDownloadHeadingWord(nextWord.slice(0, ++visibleCharacters));
+              window.setTimeout(typeWord, 100);
+              return;
+            }
+            window.setTimeout(cycleDownloadHeading, 3000);
+          }
+          typeWord();
+        }
+        eraseWord();
+      }
+      window.setTimeout(cycleDownloadHeading, 3000);
+    }
+
+    const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
+    const observedSections = navLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+    if ("IntersectionObserver" in window) {
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach((link) => {
+            const active = link.getAttribute("href") === `#${entry.target.id}`;
+            link.classList.toggle("active", active);
+          });
+        });
+      }, { rootMargin: "-32% 0px -58% 0px" });
+      observedSections.forEach((section) => sectionObserver.observe(section));
+
+      if (!reducedMotion) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: .12 });
+        document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+      } else {
+        document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
+      }
+    } else {
+      document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
+    }
+
+    document.querySelectorAll(".surface-card, .preview, .download-panel, .platform-download-card").forEach((element) => {
+      element.addEventListener("pointermove", (event) => {
+        const bounds = element.getBoundingClientRect();
+        element.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+        element.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+      });
+    });
+
+    const particleCanvas = document.getElementById("particles");
+    const context = particleCanvas.getContext("2d");
+    if (context && !reducedMotion) {
+      let particles = [];
+      let animationFrame;
+      function resizeParticles() {
+        const bounds = particleCanvas.getBoundingClientRect();
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        particleCanvas.width = Math.round(bounds.width * ratio);
+        particleCanvas.height = Math.round(bounds.height * ratio);
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+        const count = Math.min(42, Math.floor(bounds.width / 28));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * bounds.width,
+          y: Math.random() * bounds.height,
+          radius: Math.random() * 1.15 + .35,
+          speed: Math.random() * .16 + .035,
+          alpha: Math.random() * .42 + .12,
+          phase: Math.random() * Math.PI * 2
+        }));
+      }
+      function drawParticles(time) {
+        const bounds = particleCanvas.getBoundingClientRect();
+        context.clearRect(0, 0, bounds.width, bounds.height);
+        particles.forEach((particle) => {
+          particle.y -= particle.speed;
+          if (particle.y < -4) {
+            particle.y = bounds.height + 4;
+            particle.x = Math.random() * bounds.width;
+          }
+          const shimmer = .72 + Math.sin(time / 1200 + particle.phase) * .28;
+          context.beginPath();
+          context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+          context.fillStyle = `rgba(236, 195, 91, ${particle.alpha * shimmer})`;
+          context.fill();
+        });
+        animationFrame = window.requestAnimationFrame(drawParticles);
+      }
+      resizeParticles();
+      animationFrame = window.requestAnimationFrame(drawParticles);
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(resizeParticles, 140);
+      }, { passive: true });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          window.cancelAnimationFrame(animationFrame);
+        } else {
+          animationFrame = window.requestAnimationFrame(drawParticles);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
