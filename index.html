@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#070707">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'sha256-00gCIcJ4SVREsqb8kX0JcF3Pe3lrUgxWvKx2UESkno0='; style-src 'sha256-INROVFVo6TiSQeWE5l1EIbBInlPvcYRYvto3tL6cJvY='; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'sha256-vBfy6Ftg9sE9B3CIpFDw8x+q27fwQk0GBzWb0vD/M34='; style-src 'sha256-INROVFVo6TiSQeWE5l1EIbBInlPvcYRYvto3tL6cJvY='; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="description" content="Discover Darkwin: learning support for classes 1–12, problem-solving resources, digital tools, APKs, and additional services.">
   <meta property="og:type" content="website">
@@ -910,9 +910,7 @@
   </style>
 </head>
 <body>
-  <video id="page-background" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="darkwinbg.mp4" type="video/mp4">
-  </video>
+  <video id="page-background" src="darkwinbg.mp4" autoplay muted loop playsinline preload="auto" x5-video-player-type="h5" webkit-playsinline="true" aria-hidden="true"></video>
   <header class="topbar" id="topbar">
     <nav class="nav-inner wrap" aria-label="Main navigation">
       <a class="brand" href="#home" aria-label="Darkwin home">
@@ -1267,7 +1265,6 @@
 
     const backTop = document.getElementById("backTop");
     const pageBackground = document.getElementById("page-background");
-    const pageBackgroundSource = pageBackground.querySelector("source");
     const menuToggle = document.getElementById("menuToggle");
     const primaryNav = document.getElementById("primaryNav");
     const profileMenu = document.getElementById("profileMenu");
@@ -1277,6 +1274,27 @@
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const themeButtons = [...document.querySelectorAll("[data-theme-option]")];
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+    function playPageBackground() {
+      pageBackground.muted = true;
+      pageBackground.setAttribute("playsinline", "");
+      pageBackground.play().catch(() => {
+        pageBackground.load();
+      });
+    }
+
+    function setPageBackground(backgroundFile) {
+      const absoluteSource = new URL(backgroundFile, document.baseURI).href;
+      if (pageBackground.currentSrc === absoluteSource && !pageBackground.paused) return;
+      if (pageBackground.getAttribute("src") !== backgroundFile) {
+        pageBackground.pause();
+        pageBackground.setAttribute("src", backgroundFile);
+        pageBackground.load();
+      }
+      pageBackground.currentTime = 0;
+      playPageBackground();
+    }
+
     themeButtons.forEach((button) => {
       button.addEventListener("click", () => {
         const theme = button.dataset.themeOption;
@@ -1286,12 +1304,13 @@
           themeButton.setAttribute("aria-pressed", String(themeButton === button));
         });
         const backgroundFile = isLight ? "darkwinlightbg.mp4" : "darkwinbg.mp4";
-        if (pageBackgroundSource.getAttribute("src") !== backgroundFile) {
-          pageBackgroundSource.setAttribute("src", backgroundFile);
-          pageBackground.load();
-        }
+        setPageBackground(backgroundFile);
         themeColorMeta.content = isLight ? "#f5f3ed" : "#070707";
       });
+    });
+    pageBackground.addEventListener("canplay", playPageBackground);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) playPageBackground();
     });
 
     function onScroll() {
