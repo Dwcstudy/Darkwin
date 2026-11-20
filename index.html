@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#070707">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'sha256-00gCIcJ4SVREsqb8kX0JcF3Pe3lrUgxWvKx2UESkno0='; style-src 'sha256-INROVFVo6TiSQeWE5l1EIbBInlPvcYRYvto3tL6cJvY='; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="description" content="Discover Darkwin: learning support for classes 1–12, problem-solving resources, digital tools, APKs, and additional services.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Darkwin — Learning, Tools &amp; Services">
@@ -186,6 +188,39 @@
       background: #101010;
       cursor: pointer;
     }
+    .profile-menu { position: relative; flex: 0 0 auto; }
+    .profile-toggle {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--champagne);
+      background: #101010;
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+    .profile-toggle:hover, .profile-toggle[aria-expanded="true"] { border-color: rgba(245,215,142,.65); background: rgba(212,175,55,.1); box-shadow: 0 0 20px rgba(212,175,55,.15); }
+    .profile-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .profile-dropdown {
+      position: absolute;
+      z-index: 30;
+      top: calc(100% + 10px);
+      right: 0;
+      display: none;
+      width: 200px;
+      padding: 8px;
+      border: 1px solid rgba(212,175,55,.24);
+      border-radius: 12px;
+      background: rgba(10,10,10,.98);
+      box-shadow: 0 16px 35px rgba(0,0,0,.42);
+    }
+    .profile-dropdown.open { display: block; }
+    .profile-item { display: flex; min-height: 46px; align-items: center; gap: 11px; padding: 8px 10px; border: 1px solid transparent; border-radius: 8px; color: var(--text); font-size: 13px; font-weight: 600; text-decoration: none; transition: background .2s ease, border-color .2s ease, color .2s ease; }
+    .profile-item:hover, .profile-item:focus-visible { border-color: rgba(212,175,55,.18); color: var(--champagne); background: rgba(212,175,55,.08); }
+    .profile-item-icon { display: grid; width: 30px; height: 30px; flex: 0 0 30px; place-items: center; border: 1px solid rgba(212,175,55,.22); border-radius: 50%; color: var(--champagne); background: rgba(212,175,55,.06); }
+    .profile-item-icon svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
     .hero {
       position: relative;
@@ -732,6 +767,9 @@
     body.light-theme .nav-links a, body.light-theme .nav-download { color: #302917 !important; }
     body.light-theme .nav-links a:hover, body.light-theme .nav-links a.active, body.light-theme .nav-download:hover, body.light-theme .nav-download.active { color: #a27700 !important; text-shadow: 0 0 8px rgba(212,175,55,.25); }
     body.light-theme .menu-toggle { color: #302917; background: #fff; }
+    body.light-theme .profile-toggle { color: #302917; background: #fff; }
+    body.light-theme .profile-dropdown { border-color: rgba(132,98,20,.22); background: rgba(255,255,255,.98); box-shadow: 0 16px 35px rgba(58,48,25,.16); }
+    body.light-theme .profile-item-icon { border-color: rgba(132,98,20,.2); background: rgba(132,98,20,.05); }
     body.light-theme .theme-switch { border-color: rgba(132,98,20,.25); background: rgba(255,255,255,.9); }
     body.light-theme .theme-switch button { color: #302917; }
     body.light-theme .theme-switch button[aria-pressed="true"] { color: #171107; }
@@ -792,7 +830,7 @@
       .wrap { width: min(var(--content), calc(100% - 36px)); }
       .section { padding: 64px 0; }
       .nav-inner { height: 50px; padding: 0 14px; }
-      .menu-toggle { display: grid; place-items: center; }
+      .menu-toggle { display: grid; margin-left: auto; place-items: center; }
       .menu-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; }
       .nav-links {
         position: absolute;
@@ -891,6 +929,17 @@
         <a href="#faq">FAQ</a>
         <a href="#download" class="nav-download">Download</a>
       </div>
+      <div class="profile-menu" id="profileMenu">
+        <button class="profile-toggle" id="profileToggle" type="button" aria-label="Open profile menu" aria-expanded="false" aria-controls="profileDropdown">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-3.4 3.2-5.2 7-5.2s6.3 1.8 7 5.2"/></svg>
+        </button>
+        <div class="profile-dropdown" id="profileDropdown" role="menu" aria-label="Profile options">
+          <a class="profile-item" href="doctor.html" role="menuitem">
+            <span class="profile-item-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M4 3h4M12 3h4M10 12v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="10" r="2"/></svg></span>
+            <span>Doctor</span>
+          </a>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -908,7 +957,7 @@
         <div class="hero-layout">
           <div class="hero-copy">
             <span class="eyebrow">Software information &amp; download</span>
-            <span class="version-pill"><i aria-hidden="true"></i> Latest version: <span data-detail="version">Not provided</span></span>
+            <span class="version-pill"><i aria-hidden="true"></i> Latest version: <span data-detail="version">1.0</span></span>
             <h1 id="hero-title">Learn. Solve.<br><span class="gold-text">Explore more.</span></h1>
             <p>Darkwin brings together learning support for classes 1–12, problem-solving resources, useful digital tools, APKs, and additional services. Explore what’s available and check each item’s details before use.</p>
             <div class="hero-actions">
@@ -1026,7 +1075,7 @@
           </article>
           <div class="spec-grid">
             <div class="surface-card spec-item reveal"><span>Software name</span><strong>Darkwin</strong></div>
-            <div class="surface-card spec-item reveal reveal-delay-1"><span>Version</span><strong data-detail="version">Not provided</strong></div>
+            <div class="surface-card spec-item reveal reveal-delay-1"><span>Version</span><strong data-detail="version">1.0</strong></div>
             <div class="surface-card spec-item reveal reveal-delay-2"><span>Developer</span><strong>[Not provided]</strong></div>
             <div class="surface-card spec-item reveal"><span>Release date</span><strong>[Not provided]</strong></div>
             <div class="surface-card spec-item reveal reveal-delay-1"><span>Platform</span><strong data-detail="platform">Not provided</strong></div>
@@ -1175,7 +1224,7 @@
           </details>
           <details class="faq-item reveal reveal-delay-2">
             <summary><span>Are the version and system requirements current?</span><span class="faq-mark" aria-hidden="true"></span></summary>
-            <div class="faq-answer"><p>Not yet. Values marked “Not provided” or shown in brackets are placeholders. Confirm current details with the official publisher before relying on them.</p></div>
+            <div class="faq-answer"><p>Yes. The latest listed software version is 1.0; other unconfirmed details remain placeholders until verified with the official publisher.</p></div>
           </details>
           <details class="faq-item reveal">
             <summary><span>Is this page the software developer's official website?</span><span class="faq-mark" aria-hidden="true"></span></summary>
@@ -1204,7 +1253,7 @@
       Android: "darkwin.apk"
     };
     const SOFTWARE_DETAILS = {
-      version: "Not provided",
+      version: "1.0",
       platform: "Platform not provided",
       size: "Not provided"
     };
@@ -1221,6 +1270,9 @@
     const pageBackgroundSource = pageBackground.querySelector("source");
     const menuToggle = document.getElementById("menuToggle");
     const primaryNav = document.getElementById("primaryNav");
+    const profileMenu = document.getElementById("profileMenu");
+    const profileToggle = document.getElementById("profileToggle");
+    const profileDropdown = document.getElementById("profileDropdown");
     const downloadButton = document.getElementById("downloadButton");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const themeButtons = [...document.querySelectorAll("[data-theme-option]")];
@@ -1252,6 +1304,24 @@
       const isOpen = primaryNav.classList.toggle("open");
       menuToggle.setAttribute("aria-expanded", String(isOpen));
       menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+    });
+    profileToggle.addEventListener("click", () => {
+      const isOpen = profileDropdown.classList.toggle("open");
+      profileToggle.setAttribute("aria-expanded", String(isOpen));
+      profileToggle.setAttribute("aria-label", isOpen ? "Close profile menu" : "Open profile menu");
+    });
+    function closeProfileMenu() {
+      profileDropdown.classList.remove("open");
+      profileToggle.setAttribute("aria-expanded", "false");
+      profileToggle.setAttribute("aria-label", "Open profile menu");
+    }
+    document.addEventListener("click", (event) => {
+      if (!profileMenu.contains(event.target)) closeProfileMenu();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || !profileDropdown.classList.contains("open")) return;
+      closeProfileMenu();
+      profileToggle.focus();
     });
     primaryNav.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
@@ -1342,19 +1412,37 @@
     const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
     const observedSections = navLinks
       .map((link) => document.querySelector(link.getAttribute("href")))
-      .filter(Boolean);
+      .filter(Boolean)
+      .sort((first, second) => first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+    function updateActiveNav() {
+      const topbar = document.getElementById("topbar");
+      const activationLine = window.scrollY + topbar.offsetHeight + Math.min(window.innerHeight * .35, 240);
+      let activeSection = observedSections[0];
+      observedSections.forEach((section) => {
+        if (section.getBoundingClientRect().top + window.scrollY <= activationLine) {
+          activeSection = section;
+        }
+      });
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+        activeSection = observedSections.at(-1);
+      }
+      navLinks.forEach((link) => {
+        link.classList.toggle("active", link.hash === `#${activeSection.id}`);
+      });
+    }
+    let activeNavUpdatePending = false;
+    function scheduleActiveNavUpdate() {
+      if (activeNavUpdatePending) return;
+      activeNavUpdatePending = true;
+      window.requestAnimationFrame(() => {
+        activeNavUpdatePending = false;
+        updateActiveNav();
+      });
+    }
+    window.addEventListener("scroll", scheduleActiveNavUpdate, { passive: true });
+    window.addEventListener("resize", scheduleActiveNavUpdate, { passive: true });
+    updateActiveNav();
     if ("IntersectionObserver" in window) {
-      const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          navLinks.forEach((link) => {
-            const active = link.getAttribute("href") === `#${entry.target.id}`;
-            link.classList.toggle("active", active);
-          });
-        });
-      }, { rootMargin: "-32% 0px -58% 0px" });
-      observedSections.forEach((section) => sectionObserver.observe(section));
-
       if (!reducedMotion) {
         const revealObserver = new IntersectionObserver((entries, observer) => {
           entries.forEach((entry) => {
