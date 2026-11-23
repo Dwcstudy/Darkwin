@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#070707">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'sha256-qanQhIGat53A7qmilPFz15dZe7tQX9YUuxsqgnSTl+4='; style-src 'sha256-G8vOLAcvfFRmnoRAv2cVHCEN4yAkN+Lzrmn0fQRmhuM='; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'sha256-FkbzZCI5IgOXxMDXvBowj+sBqsso4tab7WQmKuNGEE4='; style-src 'sha256-5BR54zQoFlkhcav7oBI3Qrj60SU19hLLesFOJRKSD+I='; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="description" content="Discover Darkwin: learning support for classes 1–12, problem-solving resources, digital tools, APKs, and additional services.">
   <meta property="og:type" content="website">
@@ -814,6 +814,192 @@
     body.light-theme .footer-card { border-color: rgba(132,98,20,.22); background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(245,242,233,.98)); box-shadow: 0 8px 24px rgba(58,48,25,.1); }
     body.light-theme .back-top { color: #805e12; background: rgba(255,255,255,.92); }
 
+    .notification-menu { position: relative; flex: 0 0 auto; }
+    .notification-toggle {
+      position: relative;
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--champagne);
+      background: #101010;
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .notification-toggle:hover, .notification-toggle[aria-expanded="true"] {
+      transform: translateY(-1px);
+      border-color: rgba(245,215,142,.65);
+      background: rgba(212,175,55,.1);
+      box-shadow: 0 0 20px rgba(212,175,55,.15);
+    }
+    .notification-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      display: none;
+      min-width: 18px;
+      height: 18px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      border: 2px solid #090909;
+      border-radius: 999px;
+      color: #171107;
+      background: linear-gradient(135deg,#f5d78e,#d4af37);
+      box-shadow: 0 0 16px rgba(212,175,55,.55);
+      font-size: 9px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .notification-badge.visible { display: flex; animation: notification-pulse 2.4s ease-in-out infinite; }
+    body.light-theme .notification-toggle { color: #302917; background: #fff; }
+    body.light-theme .notification-badge { border-color: #fff; }
+    @keyframes notification-pulse {
+      0%,100% { box-shadow: 0 0 10px rgba(212,175,55,.35); }
+      50% { box-shadow: 0 0 20px rgba(245,215,142,.72); }
+    }
+
+    .update-now-button {
+      display: inline-flex;
+      min-height: 34px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(212,175,55,.42);
+      border-radius: 999px;
+      color: #171107;
+      background: linear-gradient(105deg,#a8822c,#f5d78e 48%,#c39a38);
+      box-shadow: 0 7px 20px rgba(164,123,31,.18);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      cursor: pointer;
+    }
+    .update-now-button[hidden] { display: none; }
+    body.light-theme .update-now-button { border-color: rgba(132,98,20,.32); color: #171107; }
+    .download-release { display: inline-flex; align-items: center; gap: 8px; }
+
+    .update-panel-backdrop {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: grid;
+      justify-items: end;
+      background: rgba(0,0,0,.58);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .28s ease, visibility .28s ease;
+      backdrop-filter: blur(8px);
+    }
+    .update-panel-backdrop.open { opacity: 1; visibility: visible; pointer-events: auto; }
+    .update-panel {
+      width: min(460px, calc(100vw - 20px));
+      height: 100%;
+      overflow-y: auto;
+      border-left: 1px solid rgba(245,215,142,.24);
+      background: linear-gradient(145deg,rgba(18,18,18,.99),rgba(7,7,7,.99));
+      box-shadow: -24px 0 70px rgba(0,0,0,.42);
+      transform: translateX(100%);
+      transition: transform .38s cubic-bezier(.2,.75,.25,1);
+    }
+    .update-panel-backdrop.open .update-panel { transform: translateX(0); }
+    .update-panel-header {
+      position: sticky;
+      z-index: 2;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px;
+      border-bottom: 1px solid rgba(212,175,55,.16);
+      background: rgba(10,10,10,.96);
+      backdrop-filter: blur(14px);
+    }
+    .update-panel-header h2 { margin: 5px 0 0; font: 500 24px/1.15 Georgia,serif; }
+    .update-panel-close {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--champagne);
+      background: rgba(212,175,55,.05);
+      cursor: pointer;
+    }
+    .update-panel-close svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+    .update-panel-body { display: grid; gap: 14px; padding: 18px 20px 26px; }
+    .update-summary-card, .update-release-card, .update-status-card {
+      border: 1px solid rgba(212,175,55,.18);
+      border-radius: 16px;
+      background: linear-gradient(145deg,rgba(28,24,15,.82),rgba(12,12,12,.96));
+    }
+    .update-summary-card { padding: 16px; }
+    .update-summary-card h3, .update-release-card h3 { margin: 7px 0 7px; font: 600 18px Georgia,serif; }
+    .update-summary-card p, .update-release-card p { margin: 0; color: var(--muted); font-size: 12px; }
+    .update-release-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+    .update-release-meta span { padding: 5px 9px; border: 1px solid rgba(212,175,55,.16); border-radius: 999px; color: #cfc39f; background: rgba(212,175,55,.04); font-size: 9px; }
+    .update-release-card { padding: 16px; }
+    .update-release-card ul { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .update-release-card li { position: relative; padding-left: 16px; color: var(--muted); font-size: 11px; }
+    .update-release-card li::before { position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; content: ""; background: var(--gold); box-shadow: 0 0 8px rgba(212,175,55,.5); }
+    .update-action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .update-action {
+      min-height: 46px;
+      border: 1px solid rgba(212,175,55,.28);
+      border-radius: 12px;
+      color: var(--champagne);
+      background: rgba(212,175,55,.055);
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: transform .2s ease,border-color .2s ease,background .2s ease;
+    }
+    .update-action.primary { color: #171107; background: linear-gradient(105deg,#a8822c,#f5d78e 48%,#c39a38); }
+    .update-action:hover { transform: translateY(-2px); border-color: rgba(245,215,142,.58); }
+    .update-status-card { display: grid; gap: 8px; padding: 14px 16px; }
+    .update-progress-track { height: 5px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.07); }
+    .update-progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#a8822c,#f5d78e); transition: width .35s ease; }
+    .update-status-text { color: var(--muted); font-size: 10px; }
+    .update-history-heading { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+    .update-history-heading strong { font: 600 13px Georgia,serif; }
+    .update-history-heading button { border: 0; color: var(--champagne); background: transparent; font-size: 9px; cursor: pointer; }
+    .update-history-list { display: grid; gap: 8px; }
+    .update-history-item {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 8px 1fr auto;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 12px;
+      border: 1px solid rgba(212,175,55,.12);
+      border-radius: 12px;
+      color: var(--text);
+      background: rgba(255,255,255,.018);
+      text-align: left;
+      cursor: pointer;
+    }
+    .update-history-item.unread { border-color: rgba(245,215,142,.32); background: rgba(212,175,55,.055); }
+    .update-history-dot { width: 7px; height: 7px; border-radius: 50%; background: #756b57; }
+    .update-history-item.unread .update-history-dot { background: var(--gold); box-shadow: 0 0 9px rgba(212,175,55,.65); }
+    .update-history-item span:nth-child(2) { display: grid; font-size: 11px; }
+    .update-history-item small { color: var(--muted); font-size: 8px; }
+    body.light-theme .update-panel { border-left-color: rgba(132,98,20,.2); background: linear-gradient(145deg,#fff,#f5f3ed); box-shadow: -24px 0 70px rgba(58,48,25,.16); }
+    body.light-theme .update-panel-header { border-bottom-color: rgba(132,98,20,.16); background: rgba(255,255,255,.96); }
+    body.light-theme .update-summary-card, body.light-theme .update-release-card, body.light-theme .update-status-card { border-color: rgba(132,98,20,.18); background: #fff; }
+    body.light-theme .update-release-meta span { color: #625126; background: rgba(212,175,55,.08); }
+    body.light-theme .update-action { border-color: rgba(132,98,20,.22); background: rgba(132,98,20,.05); }
+    body.light-theme .update-action.primary { color: #171107; background: linear-gradient(105deg,#a8822c,#f5d78e 48%,#c39a38); }
+    body.light-theme .update-progress-track { background: rgba(96,78,35,.1); }
+    body.light-theme .update-history-item { border-color: rgba(132,98,20,.14); background: rgba(255,255,255,.68); }
+    body.light-theme .update-history-item.unread { border-color: rgba(167,124,19,.32); background: rgba(212,175,55,.08); }
+
     @keyframes ambient { from { opacity: .72; transform: translateX(-50%) scale(.94); } to { opacity: 1; transform: translateX(-50%) scale(1.07); } }
     @keyframes orbit { to { transform: translate(-50%, -50%) rotate(329deg); } }
     @keyframes float { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
@@ -940,6 +1126,12 @@
         <a href="#specifications">Specifications</a>
         <a href="#faq">FAQ</a>
         <a href="#download" class="nav-download">Download</a>
+      </div>
+      <div class="notification-menu" id="notificationMenu">
+        <button class="notification-toggle" id="notificationToggle" type="button" aria-label="Open What's New notifications" aria-expanded="false" aria-controls="updatePanelBackdrop">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+          <span class="notification-badge" id="notificationBadge" aria-label="Unread updates">0</span>
+        </button>
       </div>
       <div class="profile-menu" id="profileMenu">
         <button class="profile-toggle" id="profileToggle" type="button" aria-label="Open panel" aria-expanded="false" aria-controls="profileDropdown">
@@ -1167,7 +1359,10 @@
             <h2 id="download-title">Choose your <span class="gold-text typewriter-word" id="downloadTypewriter">Platform</span><span class="typing-cursor" aria-hidden="true"></span></h2>
             <p>Select a destination that matches your device. Always verify the publisher and compatibility before installing.</p>
           </div>
-          <span class="download-release"><span data-detail="version">Latest release</span></span>
+          <span class="download-release">
+            <span data-detail="version">Latest release</span>
+            <button class="update-now-button" id="updateNowButton" type="button" hidden>UPDATE NOW</button>
+          </span>
         </div>
         <div class="platform-download-grid">
           <article class="platform-download-card featured reveal" id="desktopDownloadCard" role="button" tabindex="0" aria-label="Download Darkwin for desktop">
@@ -1247,6 +1442,48 @@
     </section>
   </main>
 
+  <div class="update-panel-backdrop" id="updatePanelBackdrop" role="dialog" aria-modal="true" aria-labelledby="updatePanelTitle">
+    <aside class="update-panel" id="updatePanel" aria-label="What's New and update controls">
+      <div class="update-panel-header">
+        <div>
+          <span class="eyebrow">Updates &amp; releases</span>
+          <h2 id="updatePanelTitle">What's New</h2>
+        </div>
+        <button class="update-panel-close" id="updatePanelClose" type="button" aria-label="Close What's New panel">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="update-panel-body">
+        <section class="update-summary-card">
+          <span class="eyebrow" id="updateSummaryLabel">Latest release</span>
+          <h3 id="updateSummaryTitle">DarkWin 1.0</h3>
+          <p id="updateSummaryDescription">The current release is ready. Use the actions below to refresh the website or check for an APK update.</p>
+          <div class="update-release-meta" id="updateReleaseMeta"></div>
+        </section>
+        <section class="update-release-card" id="updateReleaseCard">
+          <span class="eyebrow">Release details</span>
+          <h3 id="updateReleaseTitle">Initial release</h3>
+          <p id="updateReleaseDate">Release date unavailable</p>
+          <ul id="updateReleaseNotes"></ul>
+        </section>
+        <div class="update-action-grid">
+          <button class="update-action primary" id="websiteUpdateButton" type="button">Update Website</button>
+          <button class="update-action" id="apkUpdateButton" type="button">Update APK</button>
+        </div>
+        <section class="update-status-card" aria-live="polite">
+          <div class="update-progress-track"><div class="update-progress-bar" id="updateProgressBar"></div></div>
+          <div class="update-status-text" id="updateStatusText">Ready to check for updates.</div>
+        </section>
+        <div class="update-history-heading">
+          <strong>Release history</strong>
+          <button id="markAllReadButton" type="button">Mark all as read</button>
+        </div>
+        <div class="update-history-list" id="updateHistoryList"></div>
+        <button class="update-action" id="refreshUpdateManifestButton" type="button">Refresh update information</button>
+      </div>
+    </aside>
+  </div>
+
   <footer>
     <div class="wrap">
       <div class="footer-card">
@@ -1269,6 +1506,20 @@
       platform: "Platform not provided",
       size: "Not provided"
     };
+    const CURRENT_WEBSITE_VERSION = "1.0";
+    const UPDATE_MANIFEST_URL = "update-manifest.json";
+    const UPDATE_READ_STORAGE_KEY = "darkwin.read.update.ids";
+    let updateManifest = null;
+    let medianDeviceInfo = null;
+
+    function median_device_info(info) {
+      medianDeviceInfo = info && typeof info === "object" ? info : null;
+      if (typeof refreshUpdateChecks === "function") refreshUpdateChecks();
+    }
+
+    function median_app_resumed() {
+      if (typeof refreshUpdateChecks === "function") refreshUpdateChecks();
+    }
 
     document.querySelectorAll("[data-detail]").forEach((element) => {
       const key = element.dataset.detail;
@@ -1375,6 +1626,264 @@
     backTop.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
     });
+
+    const updatePanelBackdrop = document.getElementById("updatePanelBackdrop");
+    const updatePanelClose = document.getElementById("updatePanelClose");
+    const notificationToggle = document.getElementById("notificationToggle");
+    const notificationBadge = document.getElementById("notificationBadge");
+    const updateNowButton = document.getElementById("updateNowButton");
+    const updateHistoryList = document.getElementById("updateHistoryList");
+    const updateStatusText = document.getElementById("updateStatusText");
+    const updateProgressBar = document.getElementById("updateProgressBar");
+    const readUpdateIds = new Set();
+
+    try {
+      JSON.parse(localStorage.getItem(UPDATE_READ_STORAGE_KEY) || "[]").forEach((id) => readUpdateIds.add(id));
+    } catch (error) {
+      console.warn("Unable to restore update notification history:", error);
+    }
+
+    function saveReadUpdateIds() {
+      try {
+        localStorage.setItem(UPDATE_READ_STORAGE_KEY, JSON.stringify([...readUpdateIds]));
+      } catch (error) {
+        console.warn("Unable to save update notification history:", error);
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function parseVersion(value) {
+      return String(value || "0")
+        .trim()
+        .replace(/^v/i, "")
+        .split(".")
+        .map((part) => Number.parseInt(part, 10) || 0);
+    }
+
+    function compareVersions(left, right) {
+      const leftParts = parseVersion(left);
+      const rightParts = parseVersion(right);
+      const length = Math.max(leftParts.length, rightParts.length);
+      for (let index = 0; index < length; index += 1) {
+        const difference = (leftParts[index] || 0) - (rightParts[index] || 0);
+        if (difference !== 0) return difference;
+      }
+      return 0;
+    }
+
+    function setUpdateProgress(percent, status) {
+      updateProgressBar.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+      updateStatusText.textContent = status;
+    }
+
+    function openUpdatePanel(updateId) {
+      if (updateId) markUpdateRead(updateId);
+      updatePanelBackdrop.classList.add("open");
+      notificationToggle.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+      updatePanelClose.focus();
+    }
+
+    function closeUpdatePanel() {
+      updatePanelBackdrop.classList.remove("open");
+      notificationToggle.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+      notificationToggle.focus();
+    }
+
+    function markUpdateRead(updateId) {
+      if (!updateId) return;
+      readUpdateIds.add(updateId);
+      saveReadUpdateIds();
+      renderUpdateHistory();
+    }
+
+    function markAllUpdatesRead() {
+      (updateManifest?.updates || []).forEach((update) => readUpdateIds.add(update.id));
+      saveReadUpdateIds();
+      renderUpdateHistory();
+    }
+
+    function showUpdateDetails(update) {
+      if (!update) return;
+      document.getElementById("updateSummaryTitle").textContent = `DarkWin ${escapeHtml(update.version)}`;
+      document.getElementById("updateSummaryDescription").textContent = escapeHtml(update.summary || "A new DarkWin release is available.");
+      document.getElementById("updateReleaseTitle").textContent = escapeHtml(update.title || "What's New");
+      document.getElementById("updateReleaseDate").textContent = `Released ${escapeHtml(update.releaseDate || "date unavailable")}`;
+      document.getElementById("updateReleaseMeta").innerHTML =
+        `<span>Version ${escapeHtml(update.version)}</span>` +
+        `<span>${update.website ? "Website" : "Release"}</span>` +
+        `<span>${update.apk ? "APK" : "Package"}</span>`;
+      document.getElementById("updateReleaseNotes").innerHTML =
+        (update.notes || []).map((note) => `<li>${escapeHtml(note)}</li>`).join("");
+      openUpdatePanel(update.id);
+    }
+
+    function renderUpdateHistory() {
+      const updates = updateManifest?.updates || [];
+      updateHistoryList.replaceChildren();
+      updates.forEach((update) => {
+        const unread = !readUpdateIds.has(update.id);
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = `update-history-item${unread ? " unread" : ""}`;
+        item.innerHTML =
+          `<span class="update-history-dot" aria-hidden="true"></span>` +
+          `<span>${escapeHtml(update.title)}<small>${escapeHtml(update.releaseDate || "")}</small></span>` +
+          `<small>v${escapeHtml(update.version)}</small>`;
+        item.addEventListener("click", () => showUpdateDetails(update));
+        updateHistoryList.append(item);
+      });
+
+      const unreadCount = updates.filter((update) => !readUpdateIds.has(update.id)).length;
+      notificationBadge.textContent = String(unreadCount);
+      notificationBadge.classList.toggle("visible", unreadCount > 0);
+      notificationBadge.setAttribute("aria-label", `${unreadCount} unread update${unreadCount === 1 ? "" : "s"}`);
+    }
+
+    function getInstalledApkVersion() {
+      if (medianDeviceInfo?.appVersion) return medianDeviceInfo.appVersion;
+      try {
+        return localStorage.getItem("darkwin.current.apk.version") || SOFTWARE_DETAILS.version;
+      } catch (error) {
+        return SOFTWARE_DETAILS.version;
+      }
+    }
+
+    async function refreshUpdateChecks(options = {}) {
+      setUpdateProgress(options.manual ? 22 : 8, options.manual ? "Checking secure update manifest..." : "Checking for updates...");
+      try {
+        const response = await fetch(`${UPDATE_MANIFEST_URL}?t=${Date.now()}`, {
+          cache: "no-store",
+          credentials: "same-origin",
+          headers: { "Accept": "application/json" }
+        });
+        if (!response.ok) throw new Error(`Manifest returned HTTP ${response.status}`);
+        const manifest = await response.json();
+        if (!manifest || !manifest.website || !manifest.apk || !Array.isArray(manifest.updates)) {
+          throw new Error("Manifest format is invalid");
+        }
+        updateManifest = manifest;
+        const latestWebsite = manifest.website.version;
+        const latestApk = manifest.apk.version;
+        const apkVersion = getInstalledApkVersion();
+        const websiteUpdateAvailable = compareVersions(latestWebsite, CURRENT_WEBSITE_VERSION) > 0;
+        const apkUpdateAvailable = compareVersions(latestApk, apkVersion) > 0;
+        updateNowButton.hidden = !(websiteUpdateAvailable || apkUpdateAvailable);
+        updateNowButton.textContent = apkUpdateAvailable ? "UPDATE APK" : "UPDATE NOW";
+        document.querySelectorAll("[data-detail]").forEach((element) => {
+          if (element.dataset.detail === "version") element.textContent = latestWebsite;
+        });
+        SOFTWARE_DETAILS.version = latestWebsite;
+        const latestUpdate = manifest.updates.slice().sort((left, right) =>
+          String(right.releaseDate || "").localeCompare(String(left.releaseDate || ""))
+        )[0];
+        showUpdateDetailsOnData(latestUpdate);
+        renderUpdateHistory();
+        setUpdateProgress(100, options.manual ? "Update information refreshed." : "Update information is current.");
+        return manifest;
+      } catch (error) {
+        console.error("Update check failed:", error);
+        setUpdateProgress(100, "Update check failed. Check your connection or try Refresh.");
+        renderUpdateHistory();
+        return null;
+      }
+    }
+
+    function showUpdateDetailsOnData(update) {
+      if (!update) return;
+      document.getElementById("updateSummaryTitle").textContent = `DarkWin ${update.version}`;
+      document.getElementById("updateSummaryDescription").textContent = update.summary || "A DarkWin release is available.";
+      document.getElementById("updateReleaseTitle").textContent = update.title || "What's New";
+      document.getElementById("updateReleaseDate").textContent = `Released ${update.releaseDate || "date unavailable"}`;
+      document.getElementById("updateReleaseMeta").innerHTML =
+        `<span>Version ${escapeHtml(update.version)}</span>` +
+        `<span>${update.website ? "Website" : "Release"}</span>` +
+        `<span>${update.apk ? "APK" : "Package"}</span>`;
+      document.getElementById("updateReleaseNotes").innerHTML =
+        (update.notes || []).map((note) => `<li>${escapeHtml(note)}</li>`).join("");
+    }
+
+    function getMedianBridge() {
+      if (window.median && typeof window.median === "object") return window.median;
+      if (window.gonative && typeof window.gonative === "object") return window.gonative;
+      return null;
+    }
+
+    async function updateWebsite() {
+      setUpdateProgress(18, "Preparing website refresh...");
+      const bridge = getMedianBridge();
+      try {
+        if (bridge?.webview?.clearCache && typeof bridge.webview.clearCache === "function") {
+          const cacheResult = bridge.webview.clearCache();
+          if (cacheResult && typeof cacheResult.catch === "function") await cacheResult.catch(() => null);
+        }
+        setUpdateProgress(70, "WebView cache clear requested. Reloading latest website...");
+        window.setTimeout(() => {
+          const separator = window.location.href.includes("?") ? "&" : "?";
+          window.location.replace(`${window.location.pathname}${separator}dwupdate=${Date.now()}${window.location.hash}`);
+        }, 420);
+      } catch (error) {
+        console.error("Website update failed:", error);
+        setUpdateProgress(100, "Website update failed. Please refresh manually.");
+      }
+    }
+
+    async function updateApk() {
+      setUpdateProgress(12, "Preparing APK update...");
+      if (!updateManifest?.apk) {
+        await refreshUpdateChecks({ manual: true });
+      }
+      const apk = updateManifest?.apk;
+      if (!apk?.downloadUrl) {
+        setUpdateProgress(100, "APK update failed: no download package is published.");
+        return;
+      }
+      const apkUrl = new URL(apk.downloadUrl, document.baseURI).href;
+      const bridge = getMedianBridge();
+      if (bridge?.share?.downloadFile && typeof bridge.share.downloadFile === "function") {
+        try {
+          setUpdateProgress(58, "Sending APK package to Android...");
+          const result = bridge.share.downloadFile({ url: apkUrl, open: true });
+          if (result && typeof result.then === "function") await result;
+          setUpdateProgress(100, "APK download requested. Installation is confirmed only by Android.");
+        } catch (error) {
+          console.error("Median APK download failed:", error);
+          setUpdateProgress(100, "APK update failed. Please retry or use the download section.");
+        }
+        return;
+      }
+      setUpdateProgress(58, "Starting secure APK download...");
+      const link = document.createElement("a");
+      link.href = apkUrl;
+      link.download = apkUrl.split("/").pop() || "darkwin.apk";
+      link.hidden = true;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setUpdateProgress(100, "APK download started. Installation is confirmed only by Android.");
+    }
+
+    notificationToggle.addEventListener("click", () => openUpdatePanel());
+    updatePanelClose.addEventListener("click", closeUpdatePanel);
+    updatePanelBackdrop.addEventListener("click", (event) => {
+      if (event.target === updatePanelBackdrop) closeUpdatePanel();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && updatePanelBackdrop.classList.contains("open")) closeUpdatePanel();
+    });
+    updateNowButton.addEventListener("click", () => openUpdatePanel(updateManifest?.updates?.[0]?.id));
+    document.getElementById("websiteUpdateButton").addEventListener("click", updateWebsite);
+    document.getElementById("apkUpdateButton").addEventListener("click", updateApk);
+    document.getElementById("markAllReadButton").addEventListener("click", markAllUpdatesRead);
+    document.getElementById("refreshUpdateManifestButton").addEventListener("click", () => refreshUpdateChecks({ manual: true }));
 
     function startDownload(platform) {
       const file = SOFTWARE_DOWNLOAD_FILES[platform];
@@ -1561,6 +2070,9 @@
         }
       });
     }
+
+    refreshUpdateChecks();
+    window.setInterval(() => refreshUpdateChecks(), 15 * 60 * 1000);
   </script>
 </body>
 </html>

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "website": {
+    "version": "1.0",
+    "releaseDate": "2026-11-24",
+    "minimumRefreshIntervalMinutes": 15,
+    "channel": "stable"
+  },
+  "apk": {
+    "version": "1.0",
+    "releaseDate": "2026-11-24",
+    "downloadUrl": "darkwin.apk",
+    "channel": "stable"
+  },
+  "updates": [
+    {
+      "id": "darkwin-1-0",
+      "version": "1.0",
+      "releaseDate": "2026-11-24",
+      "title": "DarkWin 1.0",
+      "summary": "Initial polished release of the DarkWin learning and tools experience.",
+      "notes": [
+        "Premium dark and light themes with animated backgrounds",
+        "Desktop and Android download areas",
+        "Science and doctor learning resources",
+        "Responsive navigation and update notification system"
+      ],
+      "website": true,
+      "apk": true
+    }
+  ]
+}
