@@ -768,3 +768,54 @@ body.doctor-page.light-theme .nav-disclosure[open] .nav-links {
 body.doctor-page.light-theme .science-network circle {
   fill: #fff;
 }
+
+body.doctor-page .subject-card.featured {
+  border-color: rgba(212,175,55,.18);
+  background: linear-gradient(145deg, rgba(20,20,20,.94), rgba(10,10,10,.94));
+  box-shadow: 0 18px 48px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.025);
+}
+body.doctor-page .science-grid a.subject-card:hover,
+body.doctor-page .science-grid a.subject-card.featured:hover {
+  border-color: rgba(245,215,142,.48);
+  box-shadow: 0 22px 58px rgba(0,0,0,.3), 0 0 38px rgba(212,175,55,.1);
+}
+body.doctor-page .subject-card.featured .subject-icon {
+  border-color: rgba(212,175,55,.28);
+  color: var(--gold-deep);
+  background: linear-gradient(145deg, rgba(212,175,55,.16), rgba(15,15,15,.92));
+  box-shadow: 0 0 22px rgba(212,175,55,.08);
+}
+body.doctor-page .subject-card.featured .subject-link {
+  color: var(--gold-deep);
+}
+body.doctor-page .subject-card.featured .subject-badge {
+  border-color: rgba(212,175,55,.2);
+  color: #948b73;
+  background: rgba(212,175,55,.035);
+  font-size: 9px;
+  letter-spacing: .12em;
+}
+body.doctor-page.light-theme .subject-card.featured {
+  border-color: rgba(132,98,20,.2);
+  color: #27241e;
+  background: #fff;
+  box-shadow: none;
+}
+body.doctor-page.light-theme .science-grid a.subject-card:hover,
+body.doctor-page.light-theme .science-grid a.subject-card.featured:hover {
+  border-color: rgba(167,124,19,.34);
+  box-shadow: 0 12px 28px rgba(167,124,19,.1);
+}
+body.doctor-page.light-theme .subject-card.featured .subject-icon {
+  border-color: rgba(167,124,19,.2);
+  color: #8c6b19;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(167,124,19,.045);
+}
+body.doctor-page.light-theme .subject-card.featured .subject-badge {
+  border-color: rgba(167,124,19,.2);
+  color: #625d52;
+  background: #fff;
+  font-size: 9px;
+  letter-spacing: .12em;
+}
