@@ -3,14 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f3ed">
+  <meta name="theme-color" content="#070707">
   <meta name="description" content="Structured Biology notes for NEET and medical entrance preparation.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; upgrade-insecure-requests">
   <title>Biology Notes | Dr. Sudhanshu Kumar</title>
   <link rel="icon" type="image/svg+xml" href="titlebar.svg">
   <link rel="stylesheet" href="science.css">
 </head>
 <body>
+  <video id="page-background" src="darkwinbg.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="doctor.html">
@@ -21,6 +22,10 @@
         <a href="biology.html" aria-current="page">Biology</a>
         <a class="back-link" href="doctor.html" aria-label="Back to home" title="Back to home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></a>
       </nav>
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" data-theme-option="light" aria-pressed="false">LIGHT</button>
+        <button type="button" data-theme-option="dark" aria-pressed="true">DARK</button>
+      </div>
     </div>
   </header>
   <main class="biology notes-page">
@@ -84,5 +89,6 @@
       </div>
     </section>
   </main>
+  <script src="science-theme.js" defer></script>
 </body>
 </html>

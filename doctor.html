@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f3ed">
+  <meta name="theme-color" content="#070707">
   <meta name="description" content="Science and NEET preparation knowledge for Physics, Chemistry, and Biology.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; style-src 'sha256-jKliucQodoRghz9nxzwOJVO1J23Rp+wzTziD4IRSACI='; img-src 'self' data:; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'sha256-jKliucQodoRghz9nxzwOJVO1J23Rp+wzTziD4IRSACI='; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; upgrade-insecure-requests">
   <title>Dr. Sudhanshu Kumar | Science &amp; NEET Preparation</title>
   <link rel="icon" type="image/svg+xml" href="titlebar.svg">
   <style>
@@ -183,8 +183,10 @@
       *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
     }
   </style>
+  <link rel="stylesheet" href="science.css">
 </head>
-<body>
+<body class="doctor-page">
+  <video id="page-background" src="darkwinbg.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
   <header class="topbar">
     <div class="wrap nav-row">
       <a class="brand" href="#home" aria-label="Science preparation home">
@@ -202,6 +204,10 @@
           </div>
         </details>
       </nav>
+      <div class="theme-switch" role="group" aria-label="Color theme">
+        <button type="button" data-theme-option="light" aria-pressed="false">LIGHT</button>
+        <button type="button" data-theme-option="dark" aria-pressed="true">DARK</button>
+      </div>
     </div>
   </header>
 
@@ -291,8 +297,7 @@
         </div>
       </div>
     </section>
-
   </main>
-
+  <script src="science-theme.js" defer></script>
 </body>
 </html>
